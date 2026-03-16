@@ -11,10 +11,8 @@
       --bg-panel: #f8fafc;
       --bg-panel-soft: #e5edf9;
       --nav: #020617;
-      --nav-bar: #0b1120;
       --accent: #2563eb;
       --accent-soft: #1d4ed8;
-      --accent-strong: #1d4ed8;
       --accent-text: #e5f0ff;
       --text-main: #0f172a;
       --text-muted: #64748b;
@@ -44,11 +42,7 @@
       justify-content: space-between;
       color: #e5e7eb;
     }
-    .top-left {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
+    .top-left { display: flex; align-items: center; gap: 18px; }
     .logo-main {
       font-size: 17px;
       letter-spacing: .22em;
@@ -56,12 +50,8 @@
     }
     .logo-main span:first-child { font-weight: 700; }
     .logo-main strong { color: #3b82f6; }
-    .top-filters {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 11px;
-    }
+
+    .top-filters { display: flex; align-items: center; gap: 10px; font-size: 11px; }
     .pill-select {
       border-radius: 999px;
       background: #020b1a;
@@ -99,11 +89,8 @@
       font-size: 11px;
       width: 100%;
     }
-    .top-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+
+    .top-right { display: flex; align-items: center; gap: 10px; }
     .stats-chip {
       font-size: 11px;
       border-radius: 999px;
@@ -141,8 +128,9 @@
       border-radius: 999px;
       padding: 2px 7px;
       font-size: 10px;
-      background: #b91c1c;
-      color: #fee2e2;
+      background: #111827;
+      border: 1px solid #1f2937;
+      color: #e5e7eb;
       text-transform: uppercase;
       letter-spacing: .08em;
     }
@@ -161,7 +149,7 @@
       box-shadow: 0 10px 28px rgba(59,130,246,.45);
     }
 
-    /* BARRA AZUL CON KPI */
+    /* BARRA AZUL KPI */
     .kpi-bar {
       height: 42px;
       background: #1d4ed8;
@@ -171,6 +159,7 @@
       gap: 10px;
       color: #e5f0ff;
       font-size: 11px;
+      overflow-x: auto;
     }
     .kpi-pill {
       border-radius: 999px;
@@ -180,11 +169,9 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
-    .dot {
-      width: 8px; height: 8px;
-      border-radius: 999px;
-    }
+    .dot { width: 8px; height: 8px; border-radius: 999px; }
     .dot-ok { background: var(--ok); }
     .dot-warn { background: var(--warn); }
     .dot-crit { background: var(--crit); }
@@ -201,7 +188,7 @@
     @media (max-width: 1080px) {
       .layout {
         grid-template-columns: 240px 1.8fr;
-        grid-template-rows: auto 260px;
+        grid-template-rows: auto 320px;
         grid-template-areas:
           "left center"
           "right right";
@@ -238,15 +225,8 @@
       justify-content: space-between;
       align-items: center;
     }
-    .fleet-title {
-      text-transform: uppercase;
-      letter-spacing: .13em;
-      font-size: 11px;
-    }
-    .fleet-count {
-      font-size: 11px;
-      color: #9ca3af;
-    }
+    .fleet-title { text-transform: uppercase; letter-spacing: .13em; font-size: 11px; }
+    .fleet-count { font-size: 11px; color: #9ca3af; }
     .fleet-list {
       margin-top: 4px;
       max-height: calc(100vh - 120px);
@@ -264,36 +244,13 @@
       cursor: pointer;
       border: 1px solid transparent;
     }
-    .truck-item:hover {
-      background: #020b1a;
-      border-color: #1f2937;
-    }
-    .truck-item.active {
-      background: #111827;
-      border-color: #1d4ed8;
-    }
-    .truck-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .truck-id {
-      font-weight: 600;
-      letter-spacing: .09em;
-    }
-    .truck-plate {
-      font-size: 11px;
-      color: #9ca3af;
-    }
-    .truck-faena {
-      font-size: 10px;
-      color: #e5e7eb;
-    }
-    .status-dot-sm {
-      width: 8px; height: 8px;
-      border-radius: 999px;
-      background: var(--ok);
-    }
+    .truck-item:hover { background: #020b1a; border-color: #1f2937; }
+    .truck-item.active { background: #111827; border-color: #1d4ed8; }
+    .truck-info { display: flex; flex-direction: column; gap: 2px; }
+    .truck-id { font-weight: 600; letter-spacing: .09em; }
+    .truck-plate { font-size: 11px; color: #9ca3af; }
+    .truck-faena { font-size: 10px; color: #e5e7eb; }
+    .status-dot-sm { width: 8px; height: 8px; border-radius: 999px; background: var(--ok); }
 
     /* CENTRO: HEADER CAMION */
     .center-header {
@@ -301,6 +258,7 @@
       justify-content: space-between;
       align-items: flex-start;
       margin-bottom: 10px;
+      gap: 10px;
     }
     .truck-title-main {
       font-size: 22px;
@@ -327,11 +285,7 @@
       font-size: 11px;
       margin-top: 8px;
     }
-    .center-actions {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
+    .center-actions { display: flex; gap: 6px; align-items: center; }
     .btn-outline {
       border-radius: 999px;
       padding: 6px 10px;
@@ -344,11 +298,10 @@
       align-items: center;
       gap: 4px;
       box-shadow: 0 1px 2px rgba(15,23,42,.08);
+      user-select: none;
     }
-    .btn-outline.secondary {
-      background: transparent;
-      border-color: #cbd5f5;
-    }
+    .btn-outline.secondary { background: transparent; border-color: #cbd5f5; }
+    .btn-outline[disabled] { opacity: .5; cursor: not-allowed; }
 
     /* DIAGRAMA + DETALLE */
     .center-body {
@@ -357,11 +310,8 @@
       gap: 12px;
       margin-top: 6px;
     }
-    @media (max-width: 900px) {
-      .center-body {
-        grid-template-columns: 1fr;
-      }
-    }
+    @media (max-width: 900px) { .center-body { grid-template-columns: 1fr; } }
+
     .card {
       background: white;
       border-radius: 14px;
@@ -373,58 +323,65 @@
       letter-spacing: .12em;
       text-transform: uppercase;
       color: #64748b;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
+
     .diagram-box {
-      height: 220px;
+      height: 330px;
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
-      background: #eff4ff;
+      background: #ffffff;
       border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
     }
-    .truck-diagram {
-      width: 120px;
-      height: 180px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, #1d4ed8, #0f172a);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 6px;
-      color: #e5e7eb;
-      font-size: 10px;
-      box-shadow: 0 18px 45px rgba(15,23,42,.45);
+
+    .diagram-wrap { position: relative; width: 100%; height: 100%; }
+    .diagram-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
-    .truck-cab {
-      width: 80px;
-      height: 38px;
-      border-radius: 8px 8px 4px 4px;
-      background: linear-gradient(180deg,#3b82f6,#1d4ed8);
-      margin-bottom: 4px;
-    }
-    .truck-body {
-      width: 94px;
-      flex: 1;
-      border-radius: 4px 4px 10px 10px;
-      background: linear-gradient(180deg,#0f172a,#020617);
-      margin-bottom: 4px;
-    }
-    .position-legend {
-      margin-top: 6px;
-      font-size: 10px;
-      color: #64748b;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
-    .legend-dot {
-      width: 7px; height: 7px;
+
+    /* Hotspots (ruedas clickeables) */
+    .hotspot{
+      position: absolute;
+      width: 8%;
+      aspect-ratio: 1 / 1;
       border-radius: 999px;
-      margin-right: 3px;
-      display: inline-block;
+      border: 2px solid rgba(37,99,235,0.0);
+      background: rgba(37,99,235,0.0);
+      cursor: pointer;
+      transition: all .15s ease-out;
+      outline: none;
     }
+    .hotspot:hover{
+      border-color: rgba(37,99,235,0.55);
+      background: rgba(37,99,235,0.12);
+    }
+    .hotspot.active{
+      border-color: rgba(29,78,216,0.9);
+      background: rgba(37,99,235,0.18);
+    }
+
+    /* Coordenadas aproximadas (AJUSTABLES) para tu imagen Modelo 1 (10 ruedas) */
+    .hs-p01{ left: 23%; top: 42%; } /* eje 1 izq */
+    .hs-p02{ left: 69%; top: 42%; } /* eje 1 der */
+
+    .hs-p03{ left: 14%; top: 58%; } /* eje 2 izq ext */
+    .hs-p04{ left: 24%; top: 58%; } /* eje 2 izq int */
+    .hs-p05{ left: 68%; top: 58%; } /* eje 2 der int */
+    .hs-p06{ left: 78%; top: 58%; } /* eje 2 der ext */
+
+    .hs-p07{ left: 14%; top: 76%; } /* eje 3 izq ext */
+    .hs-p08{ left: 24%; top: 76%; } /* eje 3 izq int */
+    .hs-p09{ left: 68%; top: 76%; } /* eje 3 der int */
+    .hs-p10{ left: 78%; top: 76%; } /* eje 3 der ext */
 
     .positions-grid {
       display: grid;
@@ -437,7 +394,12 @@
       border: 1px solid #d1d9ee;
       padding: 6px 7px;
       background: #f9fbff;
+      cursor: pointer;
+      user-select: none;
+      transition: all .12s ease-out;
     }
+    .pos-card:hover { border-color: #93c5fd; box-shadow: 0 1px 0 rgba(15,23,42,.06); }
+    .pos-card.active { border-color: #2563eb; background: #eef6ff; }
     .pos-label {
       font-size: 10px;
       letter-spacing: .12em;
@@ -482,9 +444,7 @@
       color: #e5e7eb;
       border: 1px solid #1d4ed8;
     }
-    .right-section {
-      font-size: 11px;
-    }
+    .right-section { font-size: 11px; }
     .right-section h4 {
       text-transform: uppercase;
       letter-spacing: .12em;
@@ -499,20 +459,29 @@
     .right-row strong { color: #e5e7eb; }
     .right-muted { color: #9ca3af; font-size: 10px; }
 
-    .notice {
-      margin-top: 10px;
-      font-size: 10px;
-      color: #9ca3af;
+    .notice { margin-top: 10px; font-size: 10px; color: #9ca3af; }
+
+    /* Mensaje arriba del panel centro cuando es invitado */
+    .role-banner {
+      display: none;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #7c2d12;
+      font-size: 12px;
     }
+    .role-banner strong { font-weight: 700; }
+
   </style>
 </head>
 <body>
   <!-- NAV SUPERIOR -->
   <header class="topbar">
     <div class="top-left">
-      <div>
-        <div class="logo-main"><span>NEUMÁTICOS</span> <strong>HARCHA</strong></div>
-      </div>
+      <div class="logo-main"><span>NEUMÁTICOS</span> <strong>HARCHA</strong></div>
+
       <div class="top-filters">
         <div class="pill-select">
           <span>FAENA:</span>
@@ -528,42 +497,31 @@
         </div>
       </div>
     </div>
+
     <div class="top-right">
-      <div class="stats-chip">
-        <span>24 Camiones</span>
-      </div>
-      <div class="user-pill">
-        <div class="user-circle">L</div>
+      <div class="stats-chip"><span>24 Camiones</span></div>
+
+      <div class="user-pill" title="Rol tomado desde panel.html?role=">
+        <div class="user-circle" id="userCircle">U</div>
         <div>
-          <div style="font-size:11px;">Luis Cifuentes</div>
-          <div style="font-size:10px;color:#9ca3af;">Admin</div>
+          <div style="font-size:11px;" id="userName">Usuario</div>
+          <div style="font-size:10px;color:#9ca3af;" id="userRoleSub">—</div>
         </div>
-        <span class="user-badge">ADMIN</span>
+        <span class="user-badge" id="userBadge">—</span>
       </div>
-      <button class="btn-camion">+ Camión</button>
+
+      <button class="btn-camion" id="btnNewTruck" onclick="fakeAction('newTruck')">+ Camión</button>
     </div>
   </header>
 
   <!-- BARRA AZUL KPI -->
   <div class="kpi-bar">
-    <div class="kpi-pill">
-      <span>24 Camiones</span>
-    </div>
-    <div class="kpi-pill">
-      <span>0 Pos. totales</span>
-    </div>
-    <div class="kpi-pill">
-      <span class="dot dot-ok"></span> <span>0 OK</span>
-    </div>
-    <div class="kpi-pill">
-      <span class="dot dot-warn"></span> <span>0 Desgaste</span>
-    </div>
-    <div class="kpi-pill">
-      <span class="dot dot-crit"></span> <span>0 Críticos</span>
-    </div>
-    <div class="kpi-pill">
-      <span class="dot dot-empty"></span> <span>0 Vacíos</span>
-    </div>
+    <div class="kpi-pill"><span>24 Camiones</span></div>
+    <div class="kpi-pill"><span>0 Pos. totales</span></div>
+    <div class="kpi-pill"><span class="dot dot-ok"></span><span>0 OK</span></div>
+    <div class="kpi-pill"><span class="dot dot-warn"></span><span>0 Desgaste</span></div>
+    <div class="kpi-pill"><span class="dot dot-crit"></span><span>0 Críticos</span></div>
+    <div class="kpi-pill"><span class="dot dot-empty"></span><span>0 Vacíos</span></div>
   </div>
 
   <!-- LAYOUT PRINCIPAL -->
@@ -579,6 +537,10 @@
 
     <!-- CENTRO -->
     <section class="panel-center">
+      <div class="role-banner" id="roleBanner">
+        <strong>Invitado:</strong> estás en modo solo lectura. Para editar, ingresa como Editor o Admin.
+      </div>
+
       <div class="center-header">
         <div>
           <div class="truck-title-main" id="truckTitle">CT-03</div>
@@ -590,30 +552,42 @@
           </div>
         </div>
         <div class="center-actions">
-          <button class="btn-outline">
-            <span>📄</span> Reporte
-          </button>
-          <button class="btn-outline secondary" onclick="handleEdit()">
-            <span>✏️</span> Editar
-          </button>
+          <button class="btn-outline" onclick="fakeAction('report')"><span>📄</span> Reporte</button>
+          <button class="btn-outline secondary" id="btnEdit" onclick="handleEdit()"><span>✏️</span> Editar</button>
         </div>
       </div>
 
       <div class="center-body">
         <div class="card">
           <div class="card-title">Diagrama · Vista superior</div>
+
           <div class="diagram-box">
-            <div class="truck-diagram">
-              <div class="truck-cab"></div>
-              <div class="truck-body"></div>
-              <div style="font-size:9px;opacity:.8;">FRENTE</div>
+            <div class="diagram-wrap">
+              <img src="assets/truck-diagrama.png" alt="Diagrama vista superior" class="diagram-img" />
+
+              <!-- Hotspots (ruedas clickeables) P01..P10 -->
+              <button class="hotspot hs-p01" type="button" onclick="selectPosByCode('P01')" aria-label="P01"></button>
+              <button class="hotspot hs-p02" type="button" onclick="selectPosByCode('P02')" aria-label="P02"></button>
+
+              <button class="hotspot hs-p03" type="button" onclick="selectPosByCode('P03')" aria-label="P03"></button>
+              <button class="hotspot hs-p04" type="button" onclick="selectPosByCode('P04')" aria-label="P04"></button>
+
+              <button class="hotspot hs-p05" type="button" onclick="selectPosByCode('P05')" aria-label="P05"></button>
+              <button class="hotspot hs-p06" type="button" onclick="selectPosByCode('P06')" aria-label="P06"></button>
+
+              <button class="hotspot hs-p07" type="button" onclick="selectPosByCode('P07')" aria-label="P07"></button>
+              <button class="hotspot hs-p08" type="button" onclick="selectPosByCode('P08')" aria-label="P08"></button>
+
+              <button class="hotspot hs-p09" type="button" onclick="selectPosByCode('P09')" aria-label="P09"></button>
+              <button class="hotspot hs-p10" type="button" onclick="selectPosByCode('P10')" aria-label="P10"></button>
             </div>
           </div>
-          <div class="position-legend">
-            <span><span class="legend-dot" style="background:var(--ok);"></span>Buen estado</span>
-            <span><span class="legend-dot" style="background:var(--warn);"></span>Desgaste</span>
-            <span><span class="legend-dot" style="background:var(--crit);"></span>Crítico</span>
-            <span><span class="legend-dot" style="background:var(--empty);"></span>Sin neumático</span>
+
+          <div style="margin-top:10px; font-size:10px; color:#64748b; display:flex; gap:10px; flex-wrap:wrap;">
+            <span><span class="dot dot-ok" style="display:inline-block;"></span> Buen estado</span>
+            <span><span class="dot dot-warn" style="display:inline-block;"></span> Desgaste</span>
+            <span><span class="dot dot-crit" style="display:inline-block;"></span> Crítico</span>
+            <span><span class="dot dot-empty" style="display:inline-block;"></span> Sin neumático</span>
           </div>
         </div>
 
@@ -631,48 +605,56 @@
         <button class="tab-btn-r" id="tabHist" onclick="setRightTab('historial')">HISTORIAL</button>
         <button class="tab-btn-r" id="tabAlert" onclick="setRightTab('alertas')">ALERTAS</button>
       </div>
+
       <div class="right-section" id="rightDetalle">
         <h4>Detalle seleccionado</h4>
-        <div class="right-row">
-          <strong>Posición:</strong> <span id="infoPos">Seleccione una posición del diagrama</span>
-        </div>
-        <div class="right-row">
-          <strong>Código neumático:</strong> <span id="infoCode">—</span>
-        </div>
-        <div class="right-row">
-          <strong>Estado:</strong> <span id="infoState">—</span>
-        </div>
-        <div class="right-row">
-          <strong>Notas:</strong> <span id="infoNotes">—</span>
-        </div>
+        <div class="right-row"><strong>Posición:</strong> <span id="infoPos">Seleccione una rueda del diagrama</span></div>
+        <div class="right-row"><strong>Código neumático:</strong> <span id="infoCode">—</span></div>
+        <div class="right-row"><strong>Estado:</strong> <span id="infoState">—</span></div>
+        <div class="right-row"><strong>Notas:</strong> <span id="infoNotes">—</span></div>
       </div>
+
       <div class="right-section" id="rightHist" style="display:none;">
         <h4>Historial</h4>
         <div class="right-row">
           <strong>10/03 · Cambio neumático</strong>
-          <div class="right-muted">Se instaló código NH-001 en posición P6 · Autorizado por L. Cifuentes.</div>
+          <div class="right-muted">Se instaló código NH-001 en posición P03 · Autorizado por Admin.</div>
         </div>
         <div class="right-row">
           <strong>02/02 · Rotación</strong>
-          <div class="right-muted">Rotación interna eje 2 · P6 ↔ P7.</div>
+          <div class="right-muted">Rotación interna eje 2 · P03 ↔ P04.</div>
         </div>
       </div>
+
       <div class="right-section" id="rightAlert" style="display:none;">
         <h4>Alertas</h4>
         <div class="right-row">
-          <strong>Crítico en P8</strong>
-          <div class="right-muted">Revisar neumático en próxima detención · km altos y desgaste crítico.</div>
+          <strong>Crítico en P08</strong>
+          <div class="right-muted">Revisar neumático en próxima detención · desgaste crítico.</div>
         </div>
       </div>
 
       <div class="notice">
-        Esta es una maqueta estática: los datos no se guardan. En el sistema real se conectarían a tu base de datos de neumáticos.
+        Demo estática: los datos no se guardan. Próximo paso: conectar base de datos y roles reales.
       </div>
     </aside>
   </main>
 
   <script>
-    // Datos de ejemplo
+    // ========= ROLES =========
+    // guest = solo lectura
+    // editor = puede asignar / cambiar faena / subir inventario (demo)
+    // admin = todo (demo)
+    function getRole() {
+      const role = (new URLSearchParams(window.location.search).get("role") || "guest").toLowerCase();
+      if (role === "admin" || role === "editor" || role === "guest") return role;
+      return "guest";
+    }
+
+    let role = getRole();
+    let currentTruckId = 1;
+
+    // ========= DATOS DE EJEMPLO =========
     const trucks = [
       {
         id: 1,
@@ -681,13 +663,18 @@
         faena: "LOS LAGOS",
         model: "MACK · CAMIÓN TOLVA (HR) · 10 POSICIONES · MODELO 1",
         positions: [
-          { code: "PG", label: "EJE 1 — DELANTERO IZQ.", state: "ok", notes: "En buen estado" },
-          { code: "PD", label: "EJE 1 — DELANTERO DER.", state: "ok", notes: "En buen estado" },
-          { code: "P6", label: "EJE 2 — TRASERO (DOBLE) IZQ. EXT.", state: "warn", notes: "Desgaste avanzado" },
-          { code: "P7", label: "EJE 2 — TRASERO (DOBLE) IZQ. INT.", state: "ok", notes: "Sin novedad" },
-          { code: "P8", label: "EJE 2 — TRASERO (DOBLE) DER. EXT.", state: "crit", notes: "Programar cambio urgente" },
-          { code: "P9", label: "EJE 3 — TRASERO (DOBLE) IZQ. EXT.", state: "empty", notes: "Sin neumático" },
-          { code: "P10", label: "EJE 3 — TRASERO (DOBLE) DER. EXT.", state: "ok", notes: "Recién instalado" }
+          { code: "P01", label: "EJE 1 — DELANTERO IZQ.", state: "ok",    tireCode: "NH-201", notes: "Sin novedad" },
+          { code: "P02", label: "EJE 1 — DELANTERO DER.", state: "ok",    tireCode: "NH-202", notes: "Sin novedad" },
+
+          { code: "P03", label: "EJE 2 — TRASERO IZQ. EXT.", state: "warn", tireCode: "NH-301", notes: "Desgaste en hombro" },
+          { code: "P04", label: "EJE 2 — TRASERO IZQ. INT.", state: "ok",   tireCode: "NH-302", notes: "Correcto" },
+          { code: "P05", label: "EJE 2 — TRASERO DER. INT.", state: "ok",   tireCode: "NH-303", notes: "Correcto" },
+          { code: "P06", label: "EJE 2 — TRASERO DER. EXT.", state: "ok",   tireCode: "NH-304", notes: "Correcto" },
+
+          { code: "P07", label: "EJE 3 — TRASERO IZQ. EXT.", state: "ok",    tireCode: "NH-401", notes: "Recién instalado" },
+          { code: "P08", label: "EJE 3 — TRASERO IZQ. INT.", state: "crit",  tireCode: "NH-402", notes: "Programar cambio urgente" },
+          { code: "P09", label: "EJE 3 — TRASERO DER. INT.", state: "empty", tireCode: "",       notes: "Sin neumático" },
+          { code: "P10", label: "EJE 3 — TRASERO DER. EXT.", state: "ok",    tireCode: "NH-404", notes: "Correcto" },
         ]
       },
       {
@@ -695,22 +682,70 @@
         num: "CT-06",
         plate: "BSLY79",
         faena: "DV-08 CHOSHUENCO",
-        model: "MACK · CAMIÓN TOLVA · MODELO 2",
+        model: "MACK · CAMIÓN TOLVA · MODELO 1",
         positions: [
-          { code: "PG", label: "EJE 1 — DELANTERO IZQ.", state: "ok", notes: "En buen estado" },
-          { code: "PD", label: "EJE 1 — DELANTERO DER.", state: "ok", notes: "En buen estado" },
+          { code: "P01", label: "EJE 1 — DELANTERO IZQ.", state: "ok",   tireCode: "NH-111", notes: "Correcto" },
+          { code: "P02", label: "EJE 1 — DELANTERO DER.", state: "ok",   tireCode: "NH-112", notes: "Correcto" },
+          { code: "P03", label: "EJE 2 — TRASERO IZQ. EXT.", state: "ok", tireCode: "NH-113", notes: "Correcto" },
+          { code: "P04", label: "EJE 2 — TRASERO IZQ. INT.", state: "ok", tireCode: "NH-114", notes: "Correcto" },
+          { code: "P05", label: "EJE 2 — TRASERO DER. INT.", state: "ok", tireCode: "NH-115", notes: "Correcto" },
+          { code: "P06", label: "EJE 2 — TRASERO DER. EXT.", state: "ok", tireCode: "NH-116", notes: "Correcto" },
+          { code: "P07", label: "EJE 3 — TRASERO IZQ. EXT.", state: "ok", tireCode: "NH-117", notes: "Correcto" },
+          { code: "P08", label: "EJE 3 — TRASERO IZQ. INT.", state: "ok", tireCode: "NH-118", notes: "Correcto" },
+          { code: "P09", label: "EJE 3 — TRASERO DER. INT.", state: "ok", tireCode: "NH-119", notes: "Correcto" },
+          { code: "P10", label: "EJE 3 — TRASERO DER. EXT.", state: "ok", tireCode: "NH-120", notes: "Correcto" },
         ]
-      }
+      },
     ];
-
-    let currentTruckId = 1;
-    let currentPos = null;
 
     function stateLabel(state) {
       if (state === "ok") return "Buen estado";
       if (state === "warn") return "Desgaste";
       if (state === "crit") return "Crítico";
       return "Sin neumático";
+    }
+
+    // ========= UI =========
+    function applyRoleUI() {
+      const isGuest = role === "guest";
+      const btnEdit = document.getElementById("btnEdit");
+      const btnNewTruck = document.getElementById("btnNewTruck");
+      const banner = document.getElementById("roleBanner");
+
+      // Invitado: bloquear botones
+      btnEdit.disabled = isGuest;
+      btnNewTruck.disabled = isGuest;
+
+      banner.style.display = isGuest ? "block" : "none";
+
+      // Cambiar tarjeta usuario arriba
+      const circle = document.getElementById("userCircle");
+      const name = document.getElementById("userName");
+      const sub = document.getElementById("userRoleSub");
+      const badge = document.getElementById("userBadge");
+
+      if (role === "admin") {
+        circle.textContent = "A";
+        name.textContent = "Administrador";
+        sub.textContent = "Control total";
+        badge.textContent = "ADMIN";
+        badge.style.background = "#7f1d1d";
+        badge.style.borderColor = "#991b1b";
+      } else if (role === "editor") {
+        circle.textContent = "E";
+        name.textContent = "Editor";
+        sub.textContent = "Operación básica";
+        badge.textContent = "EDITOR";
+        badge.style.background = "#064e3b";
+        badge.style.borderColor = "#065f46";
+      } else {
+        circle.textContent = "I";
+        name.textContent = "Invitado";
+        sub.textContent = "Solo lectura";
+        badge.textContent = "INVITADO";
+        badge.style.background = "#111827";
+        badge.style.borderColor = "#1f2937";
+      }
     }
 
     function renderFleet() {
@@ -750,21 +785,20 @@
 
     function selectTruck(id) {
       currentTruckId = id;
-      currentPos = null;
-      const truck = trucks.find(t => t.id === id);
-      if (!truck) return;
 
-      // Marcar activo en flota
+      // activar item
       document.querySelectorAll(".truck-item").forEach((el, idx) => {
         el.classList.toggle("active", trucks[idx].id === id);
       });
 
-      // Títulos
+      const truck = trucks.find(t => t.id === id);
+      if (!truck) return;
+
       document.getElementById("truckTitle").textContent = truck.num;
       document.getElementById("truckSub").textContent = "PATENTE: " + truck.plate + " · " + truck.model;
       document.getElementById("truckFaenaChip").innerHTML = "📍 " + truck.faena;
 
-      // Posiciones
+      // Render posiciones
       const grid = document.getElementById("positionsGrid");
       grid.innerHTML = "";
       truck.positions.forEach(pos => {
@@ -784,31 +818,63 @@
 
         const notes = document.createElement("div");
         notes.className = "pos-notes";
-        notes.textContent = pos.notes;
+        notes.textContent = pos.tireCode ? ("Neumático: " + pos.tireCode) : "Sin neumático";
         card.appendChild(notes);
 
         grid.appendChild(card);
       });
 
-      // Limpiar detalle
-      document.getElementById("infoPos").textContent = "Seleccione una posición del diagrama";
+      // reset detalle
+      clearSelectionUI();
+      setRightTab("detalle");
+    }
+
+    function clearSelectionUI() {
+      // Desactivar todos los hotspots
+      document.querySelectorAll(".hotspot").forEach(h => h.classList.remove("active"));
+      // Desactivar cards
+      document.querySelectorAll(".pos-card").forEach(c => c.classList.remove("active"));
+
+      document.getElementById("infoPos").textContent = "Seleccione una rueda del diagrama";
       document.getElementById("infoCode").textContent = "—";
       document.getElementById("infoState").textContent = "—";
       document.getElementById("infoNotes").textContent = "—";
     }
 
     function selectPosition(pos) {
-      currentPos = pos;
+      // Marcar card activo
+      document.querySelectorAll(".pos-card").forEach(c => c.classList.remove("active"));
+      const cards = Array.from(document.querySelectorAll(".pos-card"));
+      const idx = (trucks.find(t => t.id === currentTruckId)?.positions || []).findIndex(p => p.code === pos.code);
+      if (idx >= 0 && cards[idx]) cards[idx].classList.add("active");
+
+      // Marcar hotspot activo
+      document.querySelectorAll(".hotspot").forEach(h => h.classList.remove("active"));
+      const hs = document.querySelector(".hs-" + pos.code.toLowerCase());
+      if (hs) hs.classList.add("active");
+
       document.getElementById("infoPos").textContent = pos.label + " (" + pos.code + ")";
-      document.getElementById("infoCode").textContent = "NH-001 (ejemplo)";
+      document.getElementById("infoCode").textContent = pos.tireCode || "—";
       document.getElementById("infoState").textContent = stateLabel(pos.state);
-      document.getElementById("infoNotes").textContent = pos.notes;
+      document.getElementById("infoNotes").textContent = pos.notes || "—";
+    }
+
+    function selectPosByCode(code) {
+      const truck = trucks.find(t => t.id === currentTruckId);
+      if (!truck) return;
+
+      const pos = truck.positions.find(p => p.code === code);
+      if (!pos) return;
+
+      selectPosition(pos);
+      setRightTab("detalle");
     }
 
     function setRightTab(tab) {
       document.getElementById("tabDetalle").classList.remove("active");
       document.getElementById("tabHist").classList.remove("active");
       document.getElementById("tabAlert").classList.remove("active");
+
       document.getElementById("rightDetalle").style.display = "none";
       document.getElementById("rightHist").style.display = "none";
       document.getElementById("rightAlert").style.display = "none";
@@ -826,19 +892,29 @@
     }
 
     function handleEdit() {
-      const role = new URLSearchParams(window.location.search).get("role") || "admin";
       if (role === "guest") {
-        alert("Invitado: solo lectura. Use usuario Editor o Admin para editar en el sistema real.");
-      } else if (role === "editor") {
-        alert("EDITOR: en el sistema real aquí podrías asignar neumáticos y cambiar faena.");
-      } else {
-        alert("ADMIN: en el sistema real aquí podrías editar todo el camión y sus neumáticos.");
+        alert("Invitado: solo lectura. Para editar, ingresa como Editor o Admin.");
+        return;
       }
+      if (role === "editor") {
+        alert("EDITOR: aquí podrás cambiar faena y asignar neumáticos (cuando lo conectemos a datos reales).");
+        return;
+      }
+      alert("ADMIN: aquí podrás editar todo (cuando lo conectemos a datos reales).");
     }
 
-    // Inicializar
+    function fakeAction(action) {
+      if (role === "guest") {
+        alert("Invitado: solo lectura.");
+        return;
+      }
+      alert("Acción demo: " + action);
+    }
+
+    // ========= INIT =========
+    applyRoleUI();
     renderFleet();
-    selectTruck(1);
+    selectTruck(currentTruckId);
   </script>
 </body>
 </html>
