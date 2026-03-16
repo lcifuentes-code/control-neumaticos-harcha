@@ -7,9 +7,7 @@
   <style>
     :root {
       --bg: #020617;
-      --bg-soft: #020b1a;
-      --card: #020b1a;
-      --card-border: #1f2937;
+      --card-border: rgba(37, 99, 235, 0.7);
       --accent: #2563eb;
       --accent-soft: #1d4ed8;
       --accent-text: #e5f0ff;
@@ -34,7 +32,7 @@
       max-width: 420px;
       background: radial-gradient(circle at top, #0b1220 0, #020617 58%);
       border-radius: 24px;
-      border: 1px solid rgba(37, 99, 235, 0.7);
+      border: 1px solid var(--card-border);
       box-shadow:
         0 0 0 1px rgba(15, 23, 42, 0.9),
         0 28px 80px rgba(0, 0, 0, 0.85);
@@ -43,22 +41,15 @@
     @media (max-width: 480px) {
       .shell { padding: 22px 18px 20px; border-radius: 18px; }
     }
-    .title {
-      text-align: center;
-      margin-bottom: 6px;
-    }
+    .title { text-align: center; margin-bottom: 6px; }
     .title-main {
       font-size: 26px;
       letter-spacing: .24em;
       text-transform: uppercase;
       color: #e5f0ff;
     }
-    .title-main span {
-      font-weight: 800;
-    }
-    .title-main strong {
-      color: #3b82f6;
-    }
+    .title-main span { font-weight: 800; }
+    .title-main strong { color: #3b82f6; }
     .title-sub {
       font-size: 11px;
       letter-spacing: .18em;
@@ -66,10 +57,8 @@
       color: rgba(148, 163, 184, 0.9);
       margin-top: 8px;
     }
-    .title-sub small {
-      font-size: 10px;
-      opacity: .9;
-    }
+    .title-sub small { font-size: 10px; opacity: .9; }
+
     .tabs {
       display: flex;
       gap: 6px;
@@ -98,20 +87,15 @@
       color: var(--accent-text);
       box-shadow: 0 10px 30px rgba(37, 99, 235, 0.7);
     }
-    .tab-btn:not(.active):hover {
-      color: #e5e7eb;
-    }
+    .tab-btn:not(.active):hover { color: #e5e7eb; }
+
     form {
       margin-top: 22px;
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
+    .field { display: flex; flex-direction: column; gap: 5px; }
     .label {
       font-size: 11px;
       letter-spacing: .14em;
@@ -129,13 +113,12 @@
       outline: none;
       transition: all .16s ease-out;
     }
-    .input::placeholder {
-      color: rgba(107, 114, 128, 0.9);
-    }
+    .input::placeholder { color: rgba(107, 114, 128, 0.9); }
     .input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.7);
     }
+
     .primary-btn {
       margin-top: 4px;
       width: 100%;
@@ -154,16 +137,13 @@
       filter: brightness(1.05);
       transform: translateY(-1px);
     }
+
     .divider {
       margin: 16px 0 10px;
       height: 1px;
-      background: linear-gradient(
-        to right,
-        transparent,
-        rgba(30, 64, 175, 0.7),
-        transparent
-      );
+      background: linear-gradient(to right, transparent, rgba(30, 64, 175, 0.7), transparent);
     }
+
     .guest-btn {
       width: 100%;
       border-radius: 999px;
@@ -183,15 +163,16 @@
       color: #e5e7eb;
       background: rgba(15, 23, 42, 1);
     }
-    .guest-icon {
-      font-size: 13px;
-    }
+    .guest-icon { font-size: 13px; }
+
     .hint {
       margin-top: 10px;
       font-size: 10px;
       color: rgba(148, 163, 184, 0.9);
       text-align: center;
+      line-height: 1.4;
     }
+
     .toast {
       position: fixed;
       right: 18px;
@@ -213,54 +194,47 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    .help {
+      margin-top: 10px;
+      font-size: 11px;
+      color: rgba(148,163,184,.92);
+      background: rgba(15,23,42,.75);
+      border: 1px solid rgba(148,163,184,.35);
+      border-radius: 14px;
+      padding: 10px 12px;
+      line-height: 1.45;
+    }
+    .help code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      color: rgba(191,219,254,.95);
+    }
   </style>
 </head>
 <body>
   <div class="shell">
     <div class="title">
-      <div class="title-main">
-        <span>NEUMA</span><strong>TRACK</strong>
-      </div>
-      <div class="title-sub">
-        SISTEMA GESTIÓN FLOTA TOLVA · <small>V2.0</small>
-      </div>
+      <div class="title-main"><span>NEUMA</span><strong>TRACK</strong></div>
+      <div class="title-sub">SISTEMA GESTIÓN FLOTA TOLVA · <small>V2.0</small></div>
     </div>
 
     <div class="tabs">
-      <button class="tab-btn active" id="tab-login" onclick="setMode('login')">
-        INGRESAR
-      </button>
-      <button class="tab-btn" id="tab-register" onclick="setMode('register')">
-        REGISTRARSE
-      </button>
+      <button class="tab-btn active" id="tab-login" type="button" onclick="setMode('login')">INGRESAR</button>
+      <button class="tab-btn" id="tab-register" type="button" onclick="setMode('register')">REGISTRARSE</button>
     </div>
 
     <form onsubmit="handleSubmit(event)">
       <div class="field">
         <label class="label" for="email">Email</label>
-        <input
-          id="email"
-          class="input"
-          type="email"
-          placeholder="correo@empresa.com"
-          required
-        />
+        <input id="email" class="input" type="email" placeholder="correo@empresa.com" required />
       </div>
       <div class="field">
         <label class="label" for="password">Contraseña</label>
-        <input
-          id="password"
-          class="input"
-          type="password"
-          placeholder="••••••••"
-          minlength="6"
-          required
-        />
+        <input id="password" class="input" type="password" placeholder="••••••••" minlength="6" required />
       </div>
 
-      <button type="submit" class="primary-btn" id="mainButton">
-        Ingresar
-      </button>
+      <button type="submit" class="primary-btn" id="mainButton">Ingresar</button>
     </form>
 
     <div class="divider"></div>
@@ -270,47 +244,76 @@
       <span>Ingresar como Invitado (solo lectura)</span>
     </button>
 
+    <div class="help">
+      <div><strong>Usuarios de ejemplo</strong> (para entrar al panel):</div>
+      <div>- Editor: <code>editor@empresa.com</code> / <code>editor2025</code></div>
+      <div>- Admin: <code>admin@empresa.com</code> / <code>admin2025</code></div>
+    </div>
+
     <div class="hint">
-      Esta página es una maqueta visual.<br />
-      Aquí todavía no se conecta a ninguna base de datos.
+      Demo estática: esto solo te lleva a <code>panel.html</code> según el rol.
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
 
   <script>
-   function handleSubmit(event) {
-  event.preventDefault();
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  if (!email || !password) return;
+    let mode = "login"; // "login" o "register"
 
-  if (mode === "register") {
-    showToast("En esta demo el registro es solo visual (no crea cuentas reales).");
-    return;
-  }
+    function setMode(newMode) {
+      mode = newMode;
 
-  if (email === "editor@empresa.com" && password === "editor2025") {
-    showToast("Bienvenido EDITOR. Podrás operar neumáticos en el sistema real.");
-  } else if (email === "admin@empresa.com" && password === "admin2025") {
-    showToast("Bienvenido ADMIN. Tendrás control total en el sistema real.");
-  } else {
-    showToast("Credenciales incorrectas. Usa los usuarios de ejemplo.");
-  }
-}
+      const tabLogin = document.getElementById("tab-login");
+      const tabRegister = document.getElementById("tab-register");
+      const mainButton = document.getElementById("mainButton");
 
-function enterGuest() {
-  showToast("Entraste como INVITADO (solo lectura).");
-}
+      if (mode === "login") {
+        tabLogin.classList.add("active");
+        tabRegister.classList.remove("active");
+        mainButton.textContent = "Ingresar";
+      } else {
+        tabLogin.classList.remove("active");
+        tabRegister.classList.add("active");
+        mainButton.textContent = "Crear cuenta";
+      }
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) return;
+
+      if (mode === "register") {
+        showToast("Registro desactivado en esta demo. Usa Editor/Admin o entra como invitado.");
+        return;
+      }
+
+      if (email === "editor@empresa.com" && password === "editor2025") {
+        window.location.href = "panel.html?role=editor";
+        return;
+      }
+
+      if (email === "admin@empresa.com" && password === "admin2025") {
+        window.location.href = "panel.html?role=admin";
+        return;
+      }
+
+      showToast("Credenciales incorrectas. Revisa los usuarios de ejemplo.");
+    }
+
+    function enterGuest() {
+      window.location.href = "panel.html?role=guest";
+    }
 
     function showToast(message) {
       const toast = document.getElementById("toast");
       toast.textContent = message;
       toast.classList.add("show");
       clearTimeout(window.__toastTimeout);
-      window.__toastTimeout = setTimeout(() => {
-        toast.classList.remove("show");
-      }, 2600);
+      window.__toastTimeout = setTimeout(() => toast.classList.remove("show"), 2600);
     }
   </script>
 </body>
