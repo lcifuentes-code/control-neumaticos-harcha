@@ -279,39 +279,29 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    let mode = "login"; // "login" o "register"
+   function handleSubmit(event) {
+  event.preventDefault();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  if (!email || !password) return;
 
-    function setMode(newMode) {
-      mode = newMode;
-      const tabLogin = document.getElementById("tab-login");
-      const tabRegister = document.getElementById("tab-register");
-      const mainButton = document.getElementById("mainButton");
+  if (mode === "register") {
+    showToast("En esta demo el registro es solo visual (no crea cuentas reales).");
+    return;
+  }
 
-      if (mode === "login") {
-        tabLogin.classList.add("active");
-        tabRegister.classList.remove("active");
-        mainButton.textContent = "Ingresar";
-      } else {
-        tabLogin.classList.remove("active");
-        tabRegister.classList.add("active");
-        mainButton.textContent = "Crear cuenta";
-      }
-    }
+  if (email === "editor@empresa.com" && password === "editor2025") {
+    showToast("Bienvenido EDITOR. Podrás operar neumáticos en el sistema real.");
+  } else if (email === "admin@empresa.com" && password === "admin2025") {
+    showToast("Bienvenido ADMIN. Tendrás control total en el sistema real.");
+  } else {
+    showToast("Credenciales incorrectas. Usa los usuarios de ejemplo.");
+  }
+}
 
-    function handleSubmit(event) {
-      event.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      if (!email) return;
-      if (mode === "login") {
-        showToast("Simulación: ingresar con usuario " + email);
-      } else {
-        showToast("Simulación: registrar nueva cuenta para " + email);
-      }
-    }
-
-    function enterGuest() {
-      showToast("Entraste como invitado (solo lectura).");
-    }
+function enterGuest() {
+  showToast("Entraste como INVITADO (solo lectura).");
+}
 
     function showToast(message) {
       const toast = document.getElementById("toast");
