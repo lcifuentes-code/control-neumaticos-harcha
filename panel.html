@@ -31,7 +31,7 @@
       flex-direction: column;
     }
 
-    /* NAV SUPERIOR OSCURO */
+    /* NAV SUPERIOR */
     .topbar {
       height: 56px;
       background: var(--nav);
@@ -148,6 +148,57 @@
       gap: 5px;
       box-shadow: 0 10px 28px rgba(59,130,246,.45);
     }
+
+    .kebab-btn{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      background: #020b1a;
+      color: #e5e7eb;
+      font-size: 18px;
+      line-height: 0;
+      cursor: pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .kebab-btn:hover{ border-color:#2563eb; }
+
+    .user-menu{
+      position:absolute;
+      top: 44px;
+      right: 0;
+      width: 220px;
+      background: #0b1120;
+      border: 1px solid #1f2937;
+      border-radius: 14px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
+      padding: 8px;
+      z-index: 50;
+    }
+    .user-menu-item{
+      width:100%;
+      border:none;
+      background:transparent;
+      color:#e5e7eb;
+      padding: 9px 10px;
+      border-radius: 10px;
+      cursor:pointer;
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .user-menu-item:hover{ background: rgba(37,99,235,.14); }
+    .user-menu-item.danger{ color: #fca5a5; }
+    .user-menu-item.danger:hover{ background: rgba(239,68,68,.14); }
+    .user-menu-sep{
+      height:1px;
+      background:#111827;
+      margin: 6px 4px;
+    }
+    .mi{ width: 18px; display:inline-flex; justify-content:center; }
 
     /* BARRA AZUL KPI */
     .kpi-bar {
@@ -303,6 +354,19 @@
     .btn-outline.secondary { background: transparent; border-color: #cbd5f5; }
     .btn-outline[disabled] { opacity: .5; cursor: not-allowed; }
 
+    /* BANNER ROL */
+    .role-banner {
+      display: none;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #7c2d12;
+      font-size: 12px;
+    }
+    .role-banner strong { font-weight: 700; }
+
     /* DIAGRAMA + DETALLE */
     .center-body {
       display: grid;
@@ -327,7 +391,7 @@
     }
 
     .diagram-box {
-      height: 700px;
+      height: 450px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -337,7 +401,6 @@
       overflow: hidden;
       border: 1px solid #e2e8f0;
     }
-
     .diagram-wrap { position: relative; width: 100%; height: 100%; }
     .diagram-img {
       position: absolute;
@@ -346,13 +409,13 @@
       height: 100%;
       object-fit: contain;
       display: block;
-      transform: translateY(-100px);
+      transform: translateY(-20px);
     }
 
     /* Hotspots (ruedas clickeables) */
     .hotspot{
       position: absolute;
-      width: 8%;
+      width: 7%;
       aspect-ratio: 1 / 1;
       border-radius: 999px;
       border: 2px solid rgba(37,99,235,0.0);
@@ -370,19 +433,20 @@
       background: rgba(37,99,235,0.18);
     }
 
+   
     /* Coordenadas aproximadas (AJUSTABLES) para tu imagen Modelo 1 (10 ruedas) */
     .hs-p01{ left: 36%; top:30%; } /* eje 1 izq */
     .hs-p02{ left: 71%; top: 30%; } /* eje 1 der */
 
-    .hs-p03{ left: 32%; top: 40%; } /* eje 2 izq ext */
+    .hs-p03{ left: 31%; top: 40%; } /* eje 2 izq ext */
     .hs-p04{ left: 36%; top: 40%; } /* eje 2 izq int */
-    .hs-p05{ left: 71%; top: 40%; } /* eje 2 der int */
-    .hs-p06{ left: 71%; top: 40%; } /* eje 2 der ext */
+    .hs-p05{ left: 70%; top: 40%; } /* eje 2 der int */
+    .hs-p06{ left: 76%; top: 40%; } /* eje 2 der ext */
 
-    .hs-p07{ left: 32%; top: 52%; } /* eje 3 izq ext */
-    .hs-p08{ left: 36%; top: 52%; } /* eje 3 izq int */
-    .hs-p09{ left: 71%; top: 52%; } /* eje 3 der int */
-    .hs-p10{ left: 71%; top: 52%; } /* eje 3 der ext */
+    .hs-p07{ left: 32%; top: 53%; } /* eje 3 izq ext */
+    .hs-p08{ left: 36%; top: 53%; } /* eje 3 izq int */
+    .hs-p09{ left: 71%; top: 53%; } /* eje 3 der int */
+    .hs-p10{ left: 76%; top: 53%; } /* eje 3 der ext */
 
     .positions-grid {
       display: grid;
@@ -462,19 +526,222 @@
 
     .notice { margin-top: 10px; font-size: 10px; color: #9ca3af; }
 
-    /* Mensaje arriba del panel centro cuando es invitado */
-    .role-banner {
-      display: none;
-      margin-bottom: 10px;
-      border-radius: 12px;
-      padding: 10px 12px;
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      color: #7c2d12;
-      font-size: 12px;
+    /* MODAL INVENTARIO */
+    .modal-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,.62);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 100;
     }
-    .role-banner strong { font-weight: 700; }
+    .modal{
+      width: 100%;
+      max-width: 760px;
+      background: #0b1120;
+      border: 1px solid #1f2937;
+      border-radius: 18px;
+      box-shadow: 0 22px 80px rgba(0,0,0,.65);
+      overflow: hidden;
+    }
+    .modal-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid #111827;
+    }
+    .modal-title{
+      color:#e5e7eb;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .modal-x{
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+      background: transparent;
+      color:#9ca3af;
+      cursor:pointer;
+    }
+    .modal-x:hover{ border-color:#3b82f6; color:#e5e7eb; }
 
+    .inv-tabs{
+      display:flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #111827;
+    }
+    .inv-tab{
+      flex: 0 0 auto;
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      background: transparent;
+      color:#9ca3af;
+      padding: 9px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      display:flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .inv-tab span{
+      font-size: 11px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+    }
+    .inv-tab.active{ border-color:#3b82f6; color:#e5e7eb; background: rgba(59,130,246,.10); }
+
+    .inv-toolbar{
+      padding: 12px 16px;
+      display:flex;
+      gap: 10px;
+      align-items:center;
+    }
+    .inv-search{
+      flex: 1;
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #020b1a;
+      border: 1px solid #1f2937;
+      color:#9ca3af;
+    }
+    .inv-search input{
+      border:none;
+      outline:none;
+      background:transparent;
+      color:#e5e7eb;
+      width:100%;
+    }
+    .inv-select{
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #020b1a;
+      border: 1px solid #1f2937;
+      color:#e5e7eb;
+    }
+    .inv-new{
+      border-radius: 14px;
+      padding: 10px 14px;
+      border:none;
+      cursor:pointer;
+      background: #2563eb;
+      color:#e5f0ff;
+      font-weight: 700;
+    }
+    .inv-new[disabled]{ opacity:.45; cursor:not-allowed; }
+
+    .inv-list{
+      padding: 0 16px 16px;
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .inv-item{
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      background: #0b1220;
+      padding: 12px 12px;
+      display:flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .inv-item h5{
+      color:#93c5fd;
+      font-size: 15px;
+      letter-spacing:.08em;
+    }
+    .inv-meta{
+      color:#9ca3af;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .inv-badge{
+      align-self:flex-start;
+      border-radius: 10px;
+      padding: 6px 10px;
+      font-size: 11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      border: 1px solid #1f2937;
+    }
+    .inv-badge.stock{ background: rgba(34,197,94,.10); color:#bbf7d0; border-color: rgba(34,197,94,.35); }
+    .inv-badge.retired{ background: rgba(148,163,184,.10); color:#cbd5e1; border-color: rgba(148,163,184,.35); }
+    .inv-badge.installed{ background: rgba(59,130,246,.10); color:#bfdbfe; border-color: rgba(59,130,246,.35); }
+
+    .inv-back{
+      margin: 14px 16px 0;
+      background: transparent;
+      border: none;
+      color:#93c5fd;
+      cursor:pointer;
+      font-size: 13px;
+    }
+    .inv-form-title{
+      padding: 12px 16px 0;
+      color:#93c5fd;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .inv-form{
+      padding: 12px 16px 16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .f{ display:flex; flex-direction: column; gap: 6px; }
+    .f label{
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color:#64748b;
+    }
+    .f input, .f select, .f textarea{
+      border-radius: 14px;
+      background: #020b1a;
+      border: 1px solid #1f2937;
+      padding: 10px 12px;
+      color:#e5e7eb;
+      outline:none;
+    }
+    .f textarea{ min-height: 90px; resize: vertical; }
+    .f.wide{ grid-column: 1 / -1; }
+
+    .inv-actions{
+      grid-column: 1 / -1;
+      display:flex;
+      justify-content:flex-end;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .btn-cancel{
+      border-radius: 14px;
+      padding: 10px 14px;
+      border: 1px solid #1f2937;
+      background: transparent;
+      color:#9ca3af;
+      cursor:pointer;
+    }
+    .btn-save{
+      border-radius: 14px;
+      padding: 10px 14px;
+      border:none;
+      background:#2563eb;
+      color:#e5f0ff;
+      font-weight: 800;
+      cursor:pointer;
+    }
+    .btn-save[disabled]{ opacity:.45; cursor:not-allowed; }
   </style>
 </head>
 <body>
@@ -502,13 +769,46 @@
     <div class="top-right">
       <div class="stats-chip"><span>24 Camiones</span></div>
 
-      <div class="user-pill" title="Rol tomado desde panel.html?role=">
-        <div class="user-circle" id="userCircle">U</div>
-        <div>
-          <div style="font-size:11px;" id="userName">Usuario</div>
-          <div style="font-size:10px;color:#9ca3af;" id="userRoleSub">—</div>
+      <div style="display:flex; align-items:center; gap:10px; position:relative;">
+        <div class="user-pill" title="Rol tomado desde panel.html?role=">
+          <div class="user-circle" id="userCircle">U</div>
+          <div>
+            <div style="font-size:11px;" id="userName">Usuario</div>
+            <div style="font-size:10px;color:#9ca3af;" id="userRoleSub">—</div>
+          </div>
+          <span class="user-badge" id="userBadge">—</span>
         </div>
-        <span class="user-badge" id="userBadge">—</span>
+
+        <button class="kebab-btn" id="kebabBtn" type="button" aria-label="Menú usuario" onclick="toggleUserMenu()">
+          ⋮
+        </button>
+
+        <div class="user-menu" id="userMenu" style="display:none;">
+          <button class="user-menu-item" type="button" onclick="openInventory()">
+            <span class="mi">📦</span><span>Inventario</span>
+          </button>
+          <button class="user-menu-item" type="button" onclick="openHistory()">
+            <span class="mi">🧾</span><span>Historial</span>
+          </button>
+          <button class="user-menu-item" type="button" onclick="exportExcel()">
+            <span class="mi">⬇️</span><span>Exportar Excel</span>
+          </button>
+          <button class="user-menu-item" type="button" onclick="openRetire()">
+            <span class="mi">🗑️</span><span>Datos de Baja</span>
+          </button>
+
+          <div class="user-menu-sep"></div>
+
+          <button class="user-menu-item" type="button" onclick="openUsers()">
+            <span class="mi">👥</span><span>Gestión Usuarios</span>
+          </button>
+
+          <div class="user-menu-sep"></div>
+
+          <button class="user-menu-item danger" type="button" onclick="goLogout()">
+            <span class="mi">⟵</span><span>Cerrar Sesión</span>
+          </button>
+        </div>
       </div>
 
       <button class="btn-camion" id="btnNewTruck" onclick="fakeAction('newTruck')">+ Camión</button>
@@ -566,7 +866,7 @@
             <div class="diagram-wrap">
               <img src="assets/truck-diagrama.png" alt="Diagrama vista superior" class="diagram-img" />
 
-              <!-- Hotspots (ruedas clickeables) P01..P10 -->
+              <!-- Hotspots (ruedas clickeables) -->
               <button class="hotspot hs-p01" type="button" onclick="selectPosByCode('P01')" aria-label="P01"></button>
               <button class="hotspot hs-p02" type="button" onclick="selectPosByCode('P02')" aria-label="P02"></button>
 
@@ -641,11 +941,106 @@
     </aside>
   </main>
 
+  <!-- MODAL INVENTARIO -->
+  <div class="modal-backdrop" id="invBackdrop" style="display:none;" onclick="closeInventory(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span style="margin-right:8px;">📦</span> INVENTARIO DE NEUMÁTICOS
+        </div>
+        <button class="modal-x" type="button" onclick="closeInventory()">✕</button>
+      </div>
+
+      <div class="inv-tabs">
+        <button class="inv-tab active" id="tabStock" type="button" onclick="setInvTab('stock')">1 <span>STOCK</span></button>
+        <button class="inv-tab" id="tabInstalled" type="button" onclick="setInvTab('installed')">0 <span>INSTALADOS</span></button>
+        <button class="inv-tab" id="tabRetired" type="button" onclick="setInvTab('retired')">1 <span>RETIRADOS</span></button>
+      </div>
+
+      <!-- LISTADO -->
+      <div id="invListView">
+        <div class="inv-toolbar">
+          <div class="inv-search">
+            🔎
+            <input id="invSearch" type="text" placeholder="Buscar código, marca..." oninput="renderInventory()" />
+          </div>
+
+          <select class="inv-select" id="invFilter" onchange="renderInventory()">
+            <option value="all">Todos</option>
+            <option value="new">Nuevo</option>
+            <option value="used">Usado</option>
+            <option value="retread">Recauchado</option>
+          </select>
+
+          <button class="inv-new" id="invNewBtn" type="button" onclick="openInvForm()">+ Nuevo</button>
+        </div>
+
+        <div class="inv-list" id="invList"></div>
+      </div>
+
+      <!-- FORMULARIO -->
+      <div id="invFormView" style="display:none;">
+        <button class="inv-back" type="button" onclick="closeInvForm()">← Volver al listado</button>
+
+        <div class="inv-form-title">REGISTRAR NEUMÁTICO</div>
+
+        <div class="inv-form">
+          <div class="f">
+            <label>CÓDIGO *</label>
+            <input id="fCode" placeholder="NT-001" />
+          </div>
+          <div class="f">
+            <label>MARCA</label>
+            <input id="fBrand" placeholder="Michelin" />
+          </div>
+
+          <div class="f">
+            <label>MEDIDA</label>
+            <input id="fSize" placeholder="12.00R24" />
+          </div>
+          <div class="f">
+            <label>CONDICIÓN</label>
+            <select id="fCond">
+              <option value="new">Nuevo</option>
+              <option value="used">Usado</option>
+              <option value="retread">Recauchado</option>
+            </select>
+          </div>
+
+          <div class="f">
+            <label>PROFUNDIDAD (MM)</label>
+            <input id="fDepth" type="number" step="0.1" placeholder="12.0" />
+          </div>
+          <div class="f">
+            <label>UBICACIÓN</label>
+            <input id="fLoc" placeholder="Bodega Central" />
+          </div>
+
+          <div class="f">
+            <label>FECHA INGRESO</label>
+            <input id="fDate" type="date" />
+          </div>
+          <div class="f">
+            <label>KM INGRESO</label>
+            <input id="fKm" type="number" step="1" placeholder="0" />
+          </div>
+
+          <div class="f wide">
+            <label>NOTAS</label>
+            <textarea id="fNotes" placeholder="Observaciones..."></textarea>
+          </div>
+
+          <div class="inv-actions">
+            <button class="btn-cancel" type="button" onclick="closeInvForm()">Cancelar</button>
+            <button class="btn-save" id="btnRegister" type="button" onclick="saveInventory()">Registrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ========= ROLES =========
-    // guest = solo lectura
-    // editor = puede asignar / cambiar faena / subir inventario (demo)
-    // admin = todo (demo)
     function getRole() {
       const role = (new URLSearchParams(window.location.search).get("role") || "guest").toLowerCase();
       if (role === "admin" || role === "editor" || role === "guest") return role;
@@ -655,7 +1050,6 @@
     let role = getRole();
     let currentTruckId = 1;
 
-    // ========= DATOS DE EJEMPLO =========
     const trucks = [
       {
         id: 1,
@@ -666,12 +1060,10 @@
         positions: [
           { code: "P01", label: "EJE 1 — DELANTERO IZQ.", state: "ok",    tireCode: "NH-201", notes: "Sin novedad" },
           { code: "P02", label: "EJE 1 — DELANTERO DER.", state: "ok",    tireCode: "NH-202", notes: "Sin novedad" },
-
           { code: "P03", label: "EJE 2 — TRASERO IZQ. EXT.", state: "warn", tireCode: "NH-301", notes: "Desgaste en hombro" },
           { code: "P04", label: "EJE 2 — TRASERO IZQ. INT.", state: "ok",   tireCode: "NH-302", notes: "Correcto" },
           { code: "P05", label: "EJE 2 — TRASERO DER. INT.", state: "ok",   tireCode: "NH-303", notes: "Correcto" },
           { code: "P06", label: "EJE 2 — TRASERO DER. EXT.", state: "ok",   tireCode: "NH-304", notes: "Correcto" },
-
           { code: "P07", label: "EJE 3 — TRASERO IZQ. EXT.", state: "ok",    tireCode: "NH-401", notes: "Recién instalado" },
           { code: "P08", label: "EJE 3 — TRASERO IZQ. INT.", state: "crit",  tireCode: "NH-402", notes: "Programar cambio urgente" },
           { code: "P09", label: "EJE 3 — TRASERO DER. INT.", state: "empty", tireCode: "",       notes: "Sin neumático" },
@@ -706,24 +1098,22 @@
       return "Sin neumático";
     }
 
-    // ========= UI =========
     function applyRoleUI() {
       const isGuest = role === "guest";
       const btnEdit = document.getElementById("btnEdit");
       const btnNewTruck = document.getElementById("btnNewTruck");
       const banner = document.getElementById("roleBanner");
 
-      // Invitado: bloquear botones
-      btnEdit.disabled = isGuest;
-      btnNewTruck.disabled = isGuest;
+      if (btnEdit) btnEdit.disabled = isGuest;
+      if (btnNewTruck) btnNewTruck.disabled = isGuest;
+      if (banner) banner.style.display = isGuest ? "block" : "none";
 
-      banner.style.display = isGuest ? "block" : "none";
-
-      // Cambiar tarjeta usuario arriba
       const circle = document.getElementById("userCircle");
       const name = document.getElementById("userName");
       const sub = document.getElementById("userRoleSub");
       const badge = document.getElementById("userBadge");
+
+      if (!circle || !name || !sub || !badge) return;
 
       if (role === "admin") {
         circle.textContent = "A";
@@ -784,10 +1174,19 @@
       });
     }
 
+    function clearSelectionUI() {
+      document.querySelectorAll(".hotspot").forEach(h => h.classList.remove("active"));
+      document.querySelectorAll(".pos-card").forEach(c => c.classList.remove("active"));
+
+      document.getElementById("infoPos").textContent = "Seleccione una rueda del diagrama";
+      document.getElementById("infoCode").textContent = "—";
+      document.getElementById("infoState").textContent = "—";
+      document.getElementById("infoNotes").textContent = "—";
+    }
+
     function selectTruck(id) {
       currentTruckId = id;
 
-      // activar item
       document.querySelectorAll(".truck-item").forEach((el, idx) => {
         el.classList.toggle("active", trucks[idx].id === id);
       });
@@ -799,7 +1198,6 @@
       document.getElementById("truckSub").textContent = "PATENTE: " + truck.plate + " · " + truck.model;
       document.getElementById("truckFaenaChip").innerHTML = "📍 " + truck.faena;
 
-      // Render posiciones
       const grid = document.getElementById("positionsGrid");
       grid.innerHTML = "";
       truck.positions.forEach(pos => {
@@ -825,31 +1223,17 @@
         grid.appendChild(card);
       });
 
-      // reset detalle
       clearSelectionUI();
       setRightTab("detalle");
     }
 
-    function clearSelectionUI() {
-      // Desactivar todos los hotspots
-      document.querySelectorAll(".hotspot").forEach(h => h.classList.remove("active"));
-      // Desactivar cards
-      document.querySelectorAll(".pos-card").forEach(c => c.classList.remove("active"));
-
-      document.getElementById("infoPos").textContent = "Seleccione una rueda del diagrama";
-      document.getElementById("infoCode").textContent = "—";
-      document.getElementById("infoState").textContent = "—";
-      document.getElementById("infoNotes").textContent = "—";
-    }
-
     function selectPosition(pos) {
-      // Marcar card activo
       document.querySelectorAll(".pos-card").forEach(c => c.classList.remove("active"));
+      const truck = trucks.find(t => t.id === currentTruckId);
       const cards = Array.from(document.querySelectorAll(".pos-card"));
-      const idx = (trucks.find(t => t.id === currentTruckId)?.positions || []).findIndex(p => p.code === pos.code);
+      const idx = truck ? truck.positions.findIndex(p => p.code === pos.code) : -1;
       if (idx >= 0 && cards[idx]) cards[idx].classList.add("active");
 
-      // Marcar hotspot activo
       document.querySelectorAll(".hotspot").forEach(h => h.classList.remove("active"));
       const hs = document.querySelector(".hs-" + pos.code.toLowerCase());
       if (hs) hs.classList.add("active");
@@ -912,11 +1296,204 @@
       alert("Acción demo: " + action);
     }
 
-    // ========= INIT =========
+    function goLogout(){
+      window.location.href = "index.html";
+    }
+
+    // ===== MENU USUARIO =====
+    function toggleUserMenu(){
+      const m = document.getElementById("userMenu");
+      const open = m.style.display !== "none";
+      m.style.display = open ? "none" : "block";
+    }
+    document.addEventListener("click", (e) => {
+      const menu = document.getElementById("userMenu");
+      const btn = document.getElementById("kebabBtn");
+      if (!menu || !btn) return;
+      if (menu.style.display === "none") return;
+      if (menu.contains(e.target) || btn.contains(e.target)) return;
+      menu.style.display = "none";
+    });
+
+    // ===== INVENTARIO (DATA DEMO) =====
+    let invTab = "stock";
+    let inventory = [
+      { code:"cm-136", brand:"", size:"", condition:"new", status:"stock", entryDate:"2026-03-13", entryKm:1200, location:"dv-08", notes:"" },
+      { code:"cm006", brand:"", size:"", condition:"new", status:"retired", entryDate:"2026-03-09", entryKm:null, location:"", notes:"" },
+    ];
+
+    function openInventory(){
+      const menu = document.getElementById("userMenu");
+      if (menu) menu.style.display = "none";
+
+      document.getElementById("invBackdrop").style.display = "flex";
+      setInvTab(invTab);
+      renderInventory();
+      syncInvCounts();
+      applyInvRoleUI();
+    }
+
+    function closeInventory(ev){
+      if (ev && ev.target && ev.target.id !== "invBackdrop") return;
+      document.getElementById("invBackdrop").style.display = "none";
+      closeInvForm(true);
+    }
+
+    function applyInvRoleUI(){
+      const isGuest = role === "guest";
+      const btn = document.getElementById("invNewBtn");
+      if (btn) btn.disabled = isGuest;
+    }
+
+    function setInvTab(tab){
+      invTab = tab;
+      document.getElementById("tabStock").classList.remove("active");
+      document.getElementById("tabInstalled").classList.remove("active");
+      document.getElementById("tabRetired").classList.remove("active");
+
+      if (tab === "stock") document.getElementById("tabStock").classList.add("active");
+      if (tab === "installed") document.getElementById("tabInstalled").classList.add("active");
+      if (tab === "retired") document.getElementById("tabRetired").classList.add("active");
+
+      renderInventory();
+      syncInvCounts();
+    }
+
+    function syncInvCounts(){
+      const stock = inventory.filter(i => i.status === "stock").length;
+      const inst = inventory.filter(i => i.status === "installed").length;
+      const ret = inventory.filter(i => i.status === "retired").length;
+
+      document.getElementById("tabStock").innerHTML = `${stock} <span>STOCK</span>`;
+      document.getElementById("tabInstalled").innerHTML = `${inst} <span>INSTALADOS</span>`;
+      document.getElementById("tabRetired").innerHTML = `${ret} <span>RETIRADOS</span>`;
+    }
+
+    function renderInventory(){
+      const list = document.getElementById("invList");
+      if (!list) return;
+
+      const q = (document.getElementById("invSearch")?.value || "").trim().toLowerCase();
+      const f = (document.getElementById("invFilter")?.value || "all");
+
+      let items = inventory.slice();
+      items = items.filter(i => i.status === invTab);
+
+      if (f !== "all") items = items.filter(i => i.condition === f);
+      if (q) {
+        items = items.filter(i =>
+          (i.code || "").toLowerCase().includes(q) ||
+          (i.brand || "").toLowerCase().includes(q) ||
+          (i.size || "").toLowerCase().includes(q) ||
+          (i.location || "").toLowerCase().includes(q)
+        );
+      }
+
+      list.innerHTML = "";
+      if (!items.length){
+        list.innerHTML = `<div style="color:#9ca3af; padding:10px 2px;">Sin resultados.</div>`;
+        return;
+      }
+
+      items.forEach(i => {
+        const badgeClass = i.status === "stock" ? "stock" : (i.status === "installed" ? "installed" : "retired");
+        const badgeText = i.status === "stock" ? "EN STOCK" : (i.status === "installed" ? "INSTALADO" : "RETIRADO");
+
+        const km = (i.entryKm === null || i.entryKm === undefined) ? "—" : String(i.entryKm);
+        const date = i.entryDate || "—";
+        const loc = i.location ? `📍 ${i.location}` : "";
+
+        const el = document.createElement("div");
+        el.className = "inv-item";
+        el.innerHTML = `
+          <div>
+            <h5>${i.code || "(sin código)"} <span style="color:#9ca3af; font-weight:500;">— ${km}</span></h5>
+            <div class="inv-meta">
+              ${i.condition === "new" ? "Nuevo" : i.condition === "used" ? "Usado" : "Recauchado"}
+              &nbsp;&nbsp; Ingreso: ${date} &nbsp;&nbsp; ${loc}
+            </div>
+          </div>
+          <div class="inv-badge ${badgeClass}">${badgeText}</div>
+        `;
+        list.appendChild(el);
+      });
+    }
+
+    function openInvForm(){
+      const isGuest = role === "guest";
+      if (isGuest) return;
+
+      document.getElementById("invListView").style.display = "none";
+      document.getElementById("invFormView").style.display = "block";
+
+      const today = new Date().toISOString().slice(0,10);
+      document.getElementById("fDate").value = today;
+      document.getElementById("fKm").value = 0;
+    }
+
+    function closeInvForm(silent){
+      const form = document.getElementById("invFormView");
+      const list = document.getElementById("invListView");
+      if (!form || !list) return;
+
+      form.style.display = "none";
+      list.style.display = "block";
+
+      if (!silent){
+        ["fCode","fBrand","fSize","fDepth","fLoc","fDate","fKm","fNotes"].forEach(id=>{
+          const el = document.getElementById(id);
+          if (el) el.value = "";
+        });
+        const cond = document.getElementById("fCond");
+        if (cond) cond.value = "new";
+      }
+    }
+
+    function saveInventory(){
+      const code = (document.getElementById("fCode").value || "").trim();
+      if (!code){
+        alert("El código es obligatorio.");
+        return;
+      }
+
+      const item = {
+        code,
+        brand: (document.getElementById("fBrand").value || "").trim(),
+        size: (document.getElementById("fSize").value || "").trim(),
+        condition: document.getElementById("fCond").value,
+        status: "stock",
+        entryDate: document.getElementById("fDate").value || new Date().toISOString().slice(0,10),
+        entryKm: Number(document.getElementById("fKm").value || 0),
+        location: (document.getElementById("fLoc").value || "").trim(),
+        notes: (document.getElementById("fNotes").value || "").trim(),
+        depth: (document.getElementById("fDepth").value || "").trim(),
+      };
+
+      inventory.unshift(item);
+      invTab = "stock";
+      setInvTab("stock");
+      syncInvCounts();
+      closeInvForm();
+      renderInventory();
+      alert("Neumático registrado (demo).");
+    }
+
+    // Acciones de menú (demo)
+    function openHistory(){ closeMenuAndAlert("Historial (demo)"); }
+    function exportExcel(){ closeMenuAndAlert("Exportar Excel (demo)"); }
+    function openRetire(){ closeMenuAndAlert("Datos de Baja (demo)"); }
+    function openUsers(){ closeMenuAndAlert("Gestión Usuarios (demo)"); }
+
+    function closeMenuAndAlert(msg){
+      const menu = document.getElementById("userMenu");
+      if (menu) menu.style.display = "none";
+      alert(msg);
+    }
+
+    // INIT
     applyRoleUI();
     renderFleet();
     selectTruck(currentTruckId);
   </script>
 </body>
 </html>
-
