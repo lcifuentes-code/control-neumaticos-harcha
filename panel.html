@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>NEUMATRACK · Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020b1a;
+      --panel: #020b1a;
+      --panel-border: #0f172a;
+      --accent: #2563eb;
+      --accent-soft: #1d4ed8;
+      --accent-text: #e5f0ff;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --ok: #22c55e;
+      --warn: #facc15;
+      --crit: #ef4444;
+      --empty: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #0b1120 0, #020617 60%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 18px;
+      background: #020617;
+      border-bottom: 1px solid rgba(30, 64, 175, 0.7);
+    }
+    .logo {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .logo-main {
+      font-size: 18px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .logo-main span:first-child { font-weight: 600; }
+    .logo-main strong { color: #3b82f6; }
+    .logo-sub {
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(148, 163, 184, 0.9);
+    }
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .role-pill {
+      border-radius: 999px;
+      padding: 5px 11px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(37, 99, 235, 0.7);
+    }
+    .role-dot {
+      width: 8px; height: 8px;
+      border-radius: 999px;
+    }
+    .role-dot.guest { background: var(--empty); }
+    .role-dot.editor { background: var(--ok); }
+    .role-dot.admin { background: #f97316; }
+    .logout-btn {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .16s ease-out;
+    }
+    .logout-btn:hover {
+      background: rgba(15, 23, 42, 0.95);
+      color: #fecaca;
+      border-color: rgba(248, 113, 113, 0.7);
+    }
+    .layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 230px 1.6fr 1.1fr;
+      gap: 12px;
+      padding: 12px;
+    }
+    @media (max-width: 960px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    .panel {
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 18px;
+      border: 1px solid rgba(30, 64, 175, 0.7);
+      padding: 12px 12px 10px;
+      overflow: hidden;
+    }
+    .panel-title {
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(156, 163, 175, 0.95);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pill-soft {
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 10px;
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(37, 99, 235, 0.6);
+      color: rgba(191, 219, 254, 0.95);
+    }
+    .fleet-list {
+      margin-top: 6px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .truck-item {
+      padding: 7px 8px;
+      border-radius: 10px;
+      margin-bottom: 4px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .truck-item:hover {
+      background: rgba(15, 23, 42, 0.98);
+      border-color: rgba(30, 64, 175, 0.8);
+    }
+    .truck-item.active {
+      background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+      border-color: rgba(59, 130, 246, 0.9);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6);
+    }
+    .truck-item-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .truck-id {
+      font-weight: 600;
+      letter-spacing: .09em;
+    }
+    .truck-plate {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.96);
+    }
+    .truck-faena {
+      font-size: 10px;
+      color: rgba(248, 250, 252, 0.9);
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 999px;
+      background: var(--ok);
+    }
+    .status-label {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.9);
+    }
+    .center-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .truck-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .truck-sub {
+      font-size: 11px;
+      color: rgba(148, 163, 184, 0.96);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, 0.7);
+      font-size: 10px;
+      color: rgba(191, 219, 254, 0.98);
+      background: rgba(15, 23, 42, 0.98);
+    }
+    .actions {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .btn-outline {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      border: 1px solid rgba(148, 163, 175, 0.8);
+      background: transparent;
+      color: rgba(229, 231, 235, 0.96);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all .16s ease-out;
+    }
+    .btn-outline:hover {
+      background: rgba(15, 23, 42, 0.98);
+    }
+    .btn-icon {
+      font-size: 13px;
+    }
+    .tire-grid {
+      margin-top: 8px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px dashed rgba(30, 64, 175, 0.9);
+      font-size: 11px;
+    }
+    .tire-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.9);
+    }
+    .tire-row:last-child { border-bottom: none; }
+    .tire-pos {
+      font-weight: 600;
+      letter-spacing: .1em;
+    }
+    .tire-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tag {
+      border-radius: 999px;
+      padding: 2px 7px;
+      font-size: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tag-ok {
+      background: rgba(22, 163, 74, 0.18);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.6);
+    }
+    .tag-warn {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fed7aa;
+      border: 1px solid rgba(249, 115, 22, 0.6);
+    }
+    .tag-crit {
+      background: rgba(248, 113, 113, 0.15);
+      color: #fecaca;
+      border: 1px solid rgba(248, 113, 113, 0.7);
+    }
+    .right-list {
+      margin-top: 6px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      padding-right: 4px;
+      font-size: 11px;
+    }
+    .alert-item {
+      padding: 7px 8px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(248, 113, 113, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .alert-title {
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .alert-meta {
+      font-size: 10px;
+      color: rgba(248, 250, 252, 0.9);
+    }
+    .alert-pos {
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.96);
+    }
+    .notice {
+      margin-top: 6px;
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.96);
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="logo">
+        <div class="logo-main">
+          <span>NEUMÁTICOS</span> <strong>HARCHA</strong>
+        </div>
+      </div>
+      <div class="logo-sub">Panel de control neumáticos</div>
+    </div>
+    <div class="top-right">
+      <div class="role-pill">
+        <div id="roleDot" class="role-dot guest"></div>
+        <span id="roleText">Invitado · Solo lectura</span>
+      </div>
+      <button class="logout-btn" onclick="goLogout()">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <div class="panel-title">
+        <span>Flota</span>
+        <span class="pill-soft" id="fleetSummary">0 camiones</span>
+      </div>
+      <div class="fleet-list" id="fleetList"></div>
+    </section>
+
+    <section class="panel">
+      <div class="center-header">
+        <div>
+          <div class="truck-title" id="truckTitle">Seleccione un camión</div>
+          <div class="truck-sub" id="truckSub">
+            Aquí verás la patente, modelo y faena actual.
+          </div>
+          <div style="margin-top:6px;">
+            <span class="chip" id="truckFaenaChip">FAENA: —</span>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn-outline" id="btnReport">
+            <span class="btn-icon">📄</span> Reporte
+          </button>
+          <button class="btn-outline" id="btnEdit" onclick="editTruck()">
+            <span class="btn-icon">✏️</span> Editar
+          </button>
+        </div>
+      </div>
+      <div class="tire-grid" id="tireGrid">
+        Selecciona un camión de la lista izquierda para ver un ejemplo de posiciones y estados de neumáticos.
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-title">
+        <span>Alertas</span>
+        <span class="pill-soft">Demo</span>
+      </div>
+      <div class="right-list" id="alertList"></div>
+      <div class="notice">
+        Esta es una demo estática. En el sistema real las alertas se generarían desde la base de datos según km y estado.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const trucks = [
+      {
+        id: 1,
+        num: "CT-03",
+        plate: "RD7433",
+        faena: "LOS LAGOS",
+        model: "MACK · Camión Tolva · Modelo 1",
+        positions: [
+          { code: "PG", desc: "Eje 1 - Delantero Izq.", status: "ok" },
+          { code: "PD", desc: "Eje 1 - Delantero Der.", status: "ok" },
+          { code: "P6", desc: "Eje 2 - Trasero Int. Izq.", status: "warn" },
+          { code: "P7", desc: "Eje 2 - Trasero Int. Der.", status: "ok" },
+          { code: "P8", desc: "Eje 3 - Trasero Ext. Der.", status: "crit" },
+        ],
+      },
+      {
+        id: 2,
+        num: "CT-06",
+        plate: "BSLY79",
+        faena: "DV-08 CHOSHUENCO",
+        model: "MACK · Camión Tolva · Modelo 2",
+        positions: [
+          { code: "PG", desc: "Eje 1 - Delantero Izq.", status: "ok" },
+          { code: "PD", desc: "Eje 1 - Delantero Der.", status: "ok" },
+          { code: "P10", desc: "Eje 3 - Trasero Int. Izq.", status: "warn" },
+        ],
+      },
+    ];
+
+    const alerts = [
+      {
+        truck: "CT-03",
+        faena: "LOS LAGOS",
+        pos: "P8 · Eje 3 Ext. Der.",
+        reason: "Estado CRÍTICO · Revisar de inmediato",
+      },
+      {
+        truck: "CT-06",
+        faena: "DV-08 CHOSHUENCO",
+        pos: "P10 · Eje 3 Int. Izq.",
+        reason: "Desgaste alto · Programar cambio",
+      },
+    ];
+
+    function getRoleFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const role = params.get("role") || "guest";
+      return role;
+    }
+
+    function applyRole() {
+      const role = getRoleFromUrl();
+      const dot = document.getElementById("roleDot");
+      const text = document.getElementById("roleText");
+      const btnEdit = document.getElementById("btnEdit");
+
+      dot.classList.remove("guest", "editor", "admin");
+
+      if (role === "admin") {
+        dot.classList.add("admin");
+        text.textContent = "Admin · Control total (demo visual)";
+        btnEdit.disabled = false;
+      } else if (role === "editor") {
+        dot.classList.add("editor");
+        text.textContent = "Editor · Operaciones básicas (demo visual)";
+        btnEdit.disabled = false;
+      } else {
+        dot.classList.add("guest");
+        text.textContent = "Invitado · Solo lectura (demo visual)";
+        btnEdit.disabled = true;
+      }
+    }
+
+    function renderFleet() {
+      const container = document.getElementById("fleetList");
+      const summary = document.getElementById("fleetSummary");
+      container.innerHTML = "";
+      summary.textContent = trucks.length + " camiones";
+
+      trucks.forEach((t, index) => {
+        const div = document.createElement("div");
+        div.className = "truck-item" + (index === 0 ? " active" : "");
+        div.onclick = () => selectTruck(t.id);
+
+        const left = document.createElement("div");
+        left.className = "truck-item-main";
+
+        const id = document.createElement("div");
+        id.className = "truck-id";
+        id.textContent = t.num;
+        left.appendChild(id);
+
+        const plate = document.createElement("div");
+        plate.className = "truck-plate";
+        plate.textContent = "Patente: " + t.plate;
+        left.appendChild(plate);
+
+        const faena = document.createElement("div");
+        faena.className = "truck-faena";
+        faena.textContent = t.faena;
+        left.appendChild(faena);
+
+        const right = document.createElement("div");
+        right.style.textAlign = "right";
+
+        const dot = document.createElement("div");
+        dot.className = "status-dot";
+        right.appendChild(dot);
+
+        const label = document.createElement("div");
+        label.className = "status-label";
+        label.textContent = "OK";
+        right.appendChild(label);
+
+        div.appendChild(left);
+        div.appendChild(right);
+        container.appendChild(div);
+      });
+
+      if (trucks.length) {
+        selectTruck(trucks[0].id, true);
+      }
+    }
+
+    function selectTruck(id, initial) {
+      const truck = trucks.find(t => t.id === id);
+      if (!truck) return;
+
+      document.querySelectorAll(".truck-item").forEach((el, i) => {
+        el.classList.toggle("active", trucks[i].id === id);
+      });
+
+      document.getElementById("truckTitle").textContent = truck.num;
+      document.getElementById("truckSub").textContent =
+        "PATENTE: " + truck.plate + " · " + truck.model;
+      document.getElementById("truckFaenaChip").textContent =
+        "FAENA: " + truck.faena;
+
+      const container = document.getElementById("tireGrid");
+      container.innerHTML = "";
+      truck.positions.forEach(p => {
+        const row = document.createElement("div");
+        row.className = "tire-row";
+
+        const left = document.createElement("div");
+        left.innerHTML =
+          '<div class="tire-pos">' +
+          p.code +
+          "</div><div>" +
+          p.desc +
+          "</div>";
+        row.appendChild(left);
+
+        const right = document.createElement("div");
+        right.className = "tire-state";
+
+        const tag = document.createElement("span");
+        tag.classList.add("tag");
+        if (p.status === "ok") {
+          tag.classList.add("tag-ok");
+          tag.textContent = "Buen estado";
+        } else if (p.status === "warn") {
+          tag.classList.add("tag-warn");
+          tag.textContent = "Desgaste";
+        } else {
+          tag.classList.add("tag-crit");
+          tag.textContent = "Crítico";
+        }
+        right.appendChild(tag);
+
+        row.appendChild(right);
+        container.appendChild(row);
+      });
+
+      if (!initial) {
+        // Nada especial, solo selecciona
+      }
+    }
+
+    function renderAlerts() {
+      const list = document.getElementById("alertList");
+      list.innerHTML = "";
+      alerts.forEach(a => {
+        const div = document.createElement("div");
+        div.className = "alert-item";
+
+        const title = document.createElement("div");
+        title.className = "alert-title";
+        title.textContent = a.truck + " · " + a.faena;
+        div.appendChild(title);
+
+        const pos = document.createElement("div");
+        pos.className = "alert-pos";
+        pos.textContent = a.pos;
+        div.appendChild(pos);
+
+        const reason = document.createElement("div");
+        reason.className = "alert-meta";
+        reason.textContent = a.reason;
+        div.appendChild(reason);
+
+        list.appendChild(div);
+      });
+    }
+
+    function goLogout() {
+      window.location.href = "index.html";
+    }
+
+    function editTruck() {
+      const role = getRoleFromUrl();
+      if (role === "guest") {
+        alert("Invitado solo puede ver. Cambia a editor o admin en el inicio.");
+      } else if (role === "editor") {
+        alert("EDITOR: en el sistema real aquí podrías cambiar la faena y asignar neumáticos.");
+      } else {
+        alert("ADMIN: aquí podrías editar todo el detalle del camión y neumáticos.");
+      }
+    }
+
+    applyRole();
+    renderFleet();
+    renderAlerts();
+  </script>
+</body>
+</html>
