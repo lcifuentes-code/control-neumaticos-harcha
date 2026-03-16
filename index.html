@@ -2,807 +2,315 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Control Neumáticos Harcha</title>
+  <title>NEUMATRACK · Acceso</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
-      --bg: #0f172a;
-      --bg-card: #1e293b;
-      --bg-soft: #111827;
-      --accent: #3b82f6;
+      --bg: #020617;
+      --bg-soft: #020b1a;
+      --card: #020b1a;
+      --card-border: #1f2937;
+      --accent: #2563eb;
       --accent-soft: #1d4ed8;
-      --danger: #ef4444;
-      --ok: #22c55e;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --radius: 10px;
+      --accent-text: #e5f0ff;
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --input-bg: #020617;
+      --input-border: #111827;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
-      color: var(--text);
       min-height: 100vh;
       display: flex;
-      align-items: stretch;
+      align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px;
+      color: var(--text-main);
     }
     .shell {
       width: 100%;
-      max-width: 1100px;
-      background: rgba(15,23,42,0.96);
+      max-width: 420px;
+      background: radial-gradient(circle at top, #0b1220 0, #020617 58%);
       border-radius: 24px;
-      border: 1px solid rgba(148,163,184,0.25);
-      box-shadow: 0 24px 80px rgba(0,0,0,0.65);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 260px 1fr;
+      border: 1px solid rgba(37, 99, 235, 0.7);
+      box-shadow:
+        0 0 0 1px rgba(15, 23, 42, 0.9),
+        0 28px 80px rgba(0, 0, 0, 0.85);
+      padding: 28px 30px 24px;
     }
-    @media (max-width: 900px) {
-      .shell { grid-template-columns: 1fr; }
-      .sidebar { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.25); }
+    @media (max-width: 480px) {
+      .shell { padding: 22px 18px 20px; border-radius: 18px; }
     }
-    .sidebar {
-      background: radial-gradient(circle at top left,#1d4ed8 0,#020617 55%);
-      padding: 22px 20px 18px;
-      border-right: 1px solid rgba(15,23,42,0.9);
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
+    .title {
+      text-align: center;
+      margin-bottom: 6px;
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .title-main {
+      font-size: 26px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: #e5f0ff;
     }
-    .logo-badge {
-      width: 34px; height: 34px;
-      border-radius: 10px;
-      background: linear-gradient(145deg,#facc15,#fb923c);
-      display: flex; align-items: center; justify-content: center;
-      color: #111827;
+    .title-main span {
       font-weight: 800;
-      box-shadow: 0 10px 30px rgba(251,191,36,0.55);
     }
-    .logo-text-main {
-      font-size: 16px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+    .title-main strong {
+      color: #3b82f6;
     }
-    .logo-text-sub {
+    .title-sub {
       font-size: 11px;
-      color: rgba(229,231,235,0.7);
-      letter-spacing: .09em;
+      letter-spacing: .18em;
       text-transform: uppercase;
+      color: rgba(148, 163, 184, 0.9);
+      margin-top: 8px;
     }
-    .version-pill {
-      margin-top: 4px;
-      display: inline-flex;
-      align-items: center;
+    .title-sub small {
+      font-size: 10px;
+      opacity: .9;
+    }
+    .tabs {
+      display: flex;
       gap: 6px;
+      margin-top: 22px;
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 999px;
+      padding: 3px;
+      border: 1px solid rgba(15, 23, 42, 0.9);
+    }
+    .tab-btn {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
       font-size: 11px;
-      color: rgba(226,232,240,0.9);
-      padding: 4px 9px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.7);
-      border: 1px solid rgba(148,163,184,0.45);
-    }
-    .version-dot {
-      width: 6px; height: 6px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34,197,94,0.25);
-    }
-    .role-box {
-      background: rgba(15,23,42,0.75);
-      border-radius: 18px;
-      padding: 14px 13px 13px;
-      border: 1px solid rgba(148,163,184,0.45);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .role-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .role-title {
-      font-size: 13px;
-      text-transform: uppercase;
       letter-spacing: .14em;
-      color: rgba(209,213,219,0.88);
+      text-transform: uppercase;
+      padding: 8px 0;
+      cursor: pointer;
+      background: transparent;
+      color: rgba(148, 163, 184, 0.9);
+      font-weight: 600;
+      transition: all .17s ease-out;
     }
-    .pill {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.85);
-      border: 1px solid rgba(148,163,184,0.5);
-      color: rgba(209,213,219,0.9);
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      color: var(--accent-text);
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.7);
     }
-    .role-desc {
-      font-size: 12px;
-      color: rgba(148,163,184,0.95);
-      line-height: 1.5;
+    .tab-btn:not(.active):hover {
+      color: #e5e7eb;
     }
-    .btn-group {
+    form {
+      margin-top: 22px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 14px;
     }
-    .btn {
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .label {
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(156, 163, 175, 0.96);
+    }
+    .input {
       width: 100%;
       border-radius: 999px;
-      padding: 9px 10px;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+      padding: 9px 13px;
+      font-size: 13px;
+      color: var(--text-main);
+      outline: none;
+      transition: all .16s ease-out;
+    }
+    .input::placeholder {
+      color: rgba(107, 114, 128, 0.9);
+    }
+    .input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.7);
+    }
+    .primary-btn {
+      margin-top: 4px;
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      padding: 10px 0;
       font-size: 13px;
       font-weight: 600;
-      border: none;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: #e5e7eb;
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      color: var(--accent-text);
+      box-shadow: 0 14px 36px rgba(37, 99, 235, 0.7);
       transition: all .18s ease-out;
     }
-    .btn span:first-child {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .btn-guest {
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.6);
-    }
-    .btn-guest:hover {
-      background: rgba(15,23,42,1);
-      transform: translateY(-1px);
-    }
-    .btn-editor {
-      background: linear-gradient(135deg,var(--accent),var(--accent-soft));
-      box-shadow: 0 14px 40px rgba(37,99,235,0.55);
-    }
-    .btn-editor:hover {
+    .primary-btn:hover {
       filter: brightness(1.05);
       transform: translateY(-1px);
     }
-    .btn-admin {
-      background: linear-gradient(135deg,#ea580c,#b91c1c);
-      box-shadow: 0 14px 40px rgba(239,68,68,0.6);
+    .divider {
+      margin: 16px 0 10px;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(30, 64, 175, 0.7),
+        transparent
+      );
     }
-    .btn-admin:hover {
-      filter: brightness(1.03);
-      transform: translateY(-1px);
-    }
-    .hotkey {
-      font-size: 10px;
-      padding: 2px 7px;
+    .guest-btn {
+      width: 100%;
       border-radius: 999px;
-      background: rgba(15,23,42,0.9);
-      border: 1px solid rgba(148,163,184,0.5);
-      color: rgba(209,213,219,0.9);
-    }
-    .sidebar-footer {
-      margin-top: auto;
-      font-size: 11px;
-      color: rgba(156,163,175,0.9);
-      line-height: 1.5;
-    }
-    .sidebar-footer strong { color: #e5e7eb; }
-    .main {
-      background: radial-gradient(circle at top,#0f172a 0,#020617 60%);
-      padding: 18px 18px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .top-title {
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: rgba(209,213,219,0.92);
-    }
-    .role-badge {
+      border: 1px solid rgba(31, 41, 55, 0.95);
+      background: rgba(15, 23, 42, 0.96);
+      color: rgba(148, 163, 184, 0.96);
+      padding: 9px 0;
+      font-size: 12px;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 6px;
-      padding: 5px 11px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: rgba(15,23,42,0.95);
-      border: 1px solid rgba(148,163,184,0.65);
-      color: rgba(209,213,219,0.94);
+      transition: all .16s ease-out;
     }
-    .role-dot {
-      width: 7px; height: 7px;
-      border-radius: 999px;
+    .guest-btn:hover {
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 1);
     }
-    .role-dot.guest { background: #9ca3af; }
-    .role-dot.editor { background: #22c55e; }
-    .role-dot.admin { background: #f97316; }
-    .badge-soft {
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.88);
-      border: 1px solid rgba(148,163,184,0.5);
-      color: rgba(148,163,184,0.96);
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: 2fr 1.6fr;
-      gap: 14px;
-    }
-    @media (max-width: 900px) {
-      .cards { grid-template-columns: 1fr; }
-    }
-    .card {
-      background: rgba(15,23,42,0.98);
-      border-radius: 20px;
-      border: 1px solid rgba(30,64,175,0.5);
-      padding: 14px 14px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .card-header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
-      margin-bottom: 2px;
-    }
-    .card-title {
+    .guest-icon {
       font-size: 13px;
-      font-weight: 600;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:rgba(209,213,219,0.9);
     }
-    .card-sub {
-      font-size:11px;
-      color:rgba(148,163,184,0.9);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-    thead {
-      background: rgba(15,23,42,0.95);
-    }
-    th, td {
-      padding: 6px 8px;
-      text-align: left;
-      border-bottom: 1px solid rgba(31,41,55,0.95);
-    }
-    th {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-      color: rgba(148,163,184,0.9);
-    }
-    tbody tr:hover {
-      background: rgba(15,23,42,0.8);
-    }
-    .tag {
-      display:inline-flex;
-      align-items:center;
-      padding:2px 7px;
-      border-radius:999px;
-      font-size:10px;
-    }
-    .tag-ok {
-      background:rgba(22,163,74,0.15);
-      color:#4ade80;
-      border:1px solid rgba(34,197,94,0.5);
-    }
-    .tag-warn {
-      background:rgba(245,158,11,0.15);
-      color:#fbbf24;
-      border:1px solid rgba(251,191,36,0.5);
-    }
-    .tag-crit {
-      background:rgba(248,113,113,0.15);
-      color:#fca5a5;
-      border:1px solid rgba(248,113,113,0.55);
-    }
-    .btn-small {
-      font-size:11px;
-      padding:3px 8px;
-      border-radius:999px;
-      border:none;
-      cursor:pointer;
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-      transition:all .16s ease-out;
-    }
-    .btn-small.assign {
-      background:rgba(37,99,235,0.15);
-      color:#60a5fa;
-      border:1px solid rgba(59,130,246,0.7);
-    }
-    .btn-small.assign:hover { filter:brightness(1.1); }
-    .btn-small.danger {
-      background:rgba(248,113,113,0.15);
-      color:#fca5a5;
-      border:1px solid rgba(248,113,113,0.7);
-    }
-    .btn-small[disabled] {
-      opacity:.35;
-      cursor:not-allowed;
-      box-shadow:none;
-      filter:none;
-    }
-    .notice {
-      font-size:11px;
-      color:rgba(148,163,184,0.95);
-      background:rgba(15,23,42,0.9);
-      border-radius:12px;
-      padding:7px 9px;
-      border:1px dashed rgba(148,163,184,0.6);
-    }
-    .notice strong { color:#e5e7eb; }
-    .login-overlay {
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,0.78);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:10;
-    }
-    .login-modal {
-      width:100%;
-      max-width:320px;
-      background:#020617;
-      border-radius:18px;
-      border:1px solid rgba(148,163,184,0.7);
-      padding:16px 16px 14px;
-      box-shadow:0 18px 60px rgba(0,0,0,0.8);
-    }
-    .login-title {
-      font-size:13px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:rgba(209,213,219,0.92);
-      margin-bottom:4px;
-    }
-    .login-sub {
-      font-size:11px;
-      color:rgba(148,163,184,0.96);
-      margin-bottom:10px;
-    }
-    .field-label {
-      font-size:11px;
-      color:rgba(156,163,175,0.95);
-      margin-bottom:4px;
-    }
-    .field-input {
-      width:100%;
-      background:#020617;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,0.6);
-      padding:7px 10px;
-      color:#e5e7eb;
-      font-size:12px;
-      outline:none;
-    }
-    .field-input:focus {
-      border-color:#3b82f6;
-      box-shadow:0 0 0 1px rgba(59,130,246,0.7);
-    }
-    .login-actions {
-      margin-top:10px;
-      display:flex;
-      justify-content:space-between;
-      gap:8px;
-    }
-    .btn-outline {
-      flex:1;
-      border-radius:999px;
-      padding:7px 0;
-      font-size:12px;
-      border:1px solid rgba(148,163,184,0.75);
-      background:transparent;
-      color:#e5e7eb;
-      cursor:pointer;
-      transition:all .16s ease-out;
-    }
-    .btn-outline:hover {
-      background:rgba(15,23,42,0.98);
-    }
-    .btn-primary {
-      flex:1;
-      border-radius:999px;
-      padding:7px 0;
-      font-size:12px;
-      border:none;
-      cursor:pointer;
-      background:linear-gradient(135deg,#22c55e,#16a34a);
-      color:#022c22;
-      font-weight:600;
-      box-shadow:0 10px 35px rgba(16,185,129,0.5);
-      transition:all .18s ease-out;
-    }
-    .btn-primary:hover {
-      filter:brightness(1.05);
-      transform:translateY(-1px);
+    .hint {
+      margin-top: 10px;
+      font-size: 10px;
+      color: rgba(148, 163, 184, 0.9);
+      text-align: center;
     }
     .toast {
-      position:fixed;
-      right:18px;
-      bottom:18px;
-      background:#020617;
-      border-radius:999px;
-      padding:7px 12px;
-      font-size:11px;
-      color:#e5e7eb;
-      border:1px solid rgba(148,163,184,0.75);
-      box-shadow:0 12px 40px rgba(0,0,0,0.8);
-      opacity:0;
-      transform:translateY(8px);
-      transition:all .18s ease-out;
-      pointer-events:none;
-      z-index:20;
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #020617;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 11px;
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.75);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .18s ease-out;
+      pointer-events: none;
+      z-index: 20;
     }
     .toast.show {
-      opacity:1;
-      transform:translateY(0);
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
   <div class="shell">
-    <aside class="sidebar">
-      <div>
-        <div class="logo">
-          <div class="logo-badge">NH</div>
-          <div>
-            <div class="logo-text-main">Neumáticos Harcha</div>
-            <div class="logo-text-sub">Control de neumáticos flota</div>
-          </div>
-        </div>
-        <div class="version-pill">
-          <span class="version-dot"></span>
-          <span>Panel web · v1.0</span>
-        </div>
+    <div class="title">
+      <div class="title-main">
+        <span>NEUMA</span><strong>TRACK</strong>
+      </div>
+      <div class="title-sub">
+        SISTEMA GESTIÓN FLOTA TOLVA · <small>V2.0</small>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-login" onclick="setMode('login')">
+        INGRESAR
+      </button>
+      <button class="tab-btn" id="tab-register" onclick="setMode('register')">
+        REGISTRARSE
+      </button>
+    </div>
+
+    <form onsubmit="handleSubmit(event)">
+      <div class="field">
+        <label class="label" for="email">Email</label>
+        <input
+          id="email"
+          class="input"
+          type="email"
+          placeholder="correo@empresa.com"
+          required
+        />
+      </div>
+      <div class="field">
+        <label class="label" for="password">Contraseña</label>
+        <input
+          id="password"
+          class="input"
+          type="password"
+          placeholder="••••••••"
+          minlength="6"
+          required
+        />
       </div>
 
-      <div class="role-box">
-        <div class="role-header">
-          <span class="role-title">MODO DE ACCESO</span>
-          <span class="pill">Invitado / Editor / Admin</span>
-        </div>
-        <p class="role-desc">
-          Elige cómo entrar al panel. Invitados solo ven los datos. Editores pueden operar
-          neumáticos. Admin puede administrar todo.
-        </p>
-        <div class="btn-group">
-          <button class="btn btn-guest" onclick="setRole('guest')">
-            <span><span>👁</span><span>Entrar como Invitado</span></span>
-            <span class="hotkey">Solo lectura</span>
-          </button>
-          <button class="btn btn-editor" onclick="openLogin('editor')">
-            <span><span>🛠</span><span>Entrar como Editor</span></span>
-            <span class="hotkey">Operaciones básicas</span>
-          </button>
-          <button class="btn btn-admin" onclick="openLogin('admin')">
-            <span><span>🛡</span><span>Entrar como Admin</span></span>
-            <span class="hotkey">Control total</span>
-          </button>
-        </div>
-      </div>
+      <button type="submit" class="primary-btn" id="mainButton">
+        Ingresar
+      </button>
+    </form>
 
-      <div class="sidebar-footer">
-        <strong>Reglas del sistema:</strong><br/>
-        Invitados: vista general.<br/>
-        Editores: asignar neumáticos, cambiar faena, cargar inventario.<br/>
-        Admin: altas, bajas y toda la configuración.
-      </div>
-    </aside>
+    <div class="divider"></div>
 
-    <main class="main">
-      <div class="top">
-        <div>
-          <div class="top-title">Panel de Control Neumáticos</div>
-          <div style="margin-top:4px; display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
-            <span class="badge-soft">Flota Tolva / Minería</span>
-            <span class="badge-soft">Demo estática (no guarda cambios)</span>
-          </div>
-        </div>
-        <div id="currentRoleBadge" class="role-badge">
-          <span id="roleDot" class="role-dot guest"></span>
-          <span id="roleText">Modo actual: Invitado (solo lectura)</span>
-        </div>
-      </div>
+    <button type="button" class="guest-btn" onclick="enterGuest()">
+      <span class="guest-icon">👁</span>
+      <span>Ingresar como Invitado (solo lectura)</span>
+    </button>
 
-      <div class="cards">
-        <section class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Camiones y neumáticos</div>
-              <div class="card-sub">Vista rápida de estado por posición</div>
-            </div>
-            <span class="badge-soft">Datos de ejemplo</span>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Camión</th>
-                <th>Faena</th>
-                <th>Posición</th>
-                <th>Código neumático</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="truckRows">
-              <!-- Se rellena por JS -->
-            </tbody>
-          </table>
-          <div class="notice" style="margin-top:8px;">
-            <strong>Nota:</strong> Esta es una demo visual. Sin base de datos real.
-            Sirve para ver cómo quedaría el panel con los distintos permisos.
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="card-header">
-            <div>
-              <div class="card-title">Inventario</div>
-              <div class="card-sub">Ingreso y control según rol</div>
-            </div>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:9px;">
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button class="btn-small assign" id="btnAddInventory" onclick="fakeAction('addInventory')">
-                ➕ Ingresar neumático a inventario
-              </button>
-              <button class="btn-small assign" id="btnAssign" onclick="fakeAction('assign')">
-                🔁 Asignar neumático a camión
-              </button>
-            </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button class="btn-small danger" id="btnRetire" onclick="fakeAction('retire')">
-                🛑 Retirar neumático (admin)
-              </button>
-              <button class="btn-small danger" id="btnDeleteTruck" onclick="fakeAction('deleteTruck')">
-                🗑 Eliminar camión (admin)
-              </button>
-            </div>
-            <div class="notice">
-              <strong>Permisos:</strong><br/>
-              Invitado: botones desactivados.<br/>
-              Editor: puede usar “Ingresar” y “Asignar”.<br/>
-              Admin: puede además retirar y eliminar.
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-  </div>
-
-  <div class="login-overlay" id="loginOverlay">
-    <div class="login-modal">
-      <div class="login-title" id="loginTitle">Acceso Editor</div>
-      <div class="login-sub" id="loginSub">
-        Ingresa la clave que definiste internamente para editores.
-        (En esta demo es solo para mostrar el flujo, no se valida con un servidor real).
-      </div>
-      <div style="margin-bottom:10px;">
-        <div class="field-label">Contraseña</div>
-        <input id="passwordInput" class="field-input" type="password" placeholder="Escribe la clave..." />
-      </div>
-      <div class="login-actions">
-        <button class="btn-outline" onclick="closeLogin()">Cancelar</button>
-        <button class="btn-primary" onclick="submitLogin()">Entrar</button>
-      </div>
+    <div class="hint">
+      Esta página es una maqueta visual.<br />
+      Aquí todavía no se conecta a ninguna base de datos.
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
 
   <script>
-    const sampleTrucks = [
-      { id: 1, num: "T-101", faena: "Faena Norte", pos: "Eje 1 - Izq", code: "NH-001", status: "ok" },
-      { id: 2, num: "T-101", faena: "Faena Norte", pos: "Eje 2 - Der", code: "NH-045", status: "warn" },
-      { id: 3, num: "T-204", faena: "Faena Sur", pos: "Eje 3 - Ext Der", code: "NH-090", status: "crit" },
-      { id: 4, num: "T-330", faena: "Stock", pos: "Sin asignar", code: "INV-123", status: "ok" },
-    ];
+    let mode = "login"; // "login" o "register"
 
-    let currentRole = "guest"; 
-    let loginTargetRole = null; 
+    function setMode(newMode) {
+      mode = newMode;
+      const tabLogin = document.getElementById("tab-login");
+      const tabRegister = document.getElementById("tab-register");
+      const mainButton = document.getElementById("mainButton");
 
-    function renderTable() {
-      const tbody = document.getElementById("truckRows");
-      tbody.innerHTML = "";
-      sampleTrucks.forEach(row => {
-        const tr = document.createElement("tr");
-
-        const tdTruck = document.createElement("td");
-        tdTruck.textContent = row.num;
-        tr.appendChild(tdTruck);
-
-        const tdFaena = document.createElement("td");
-        tdFaena.textContent = row.faena;
-        tr.appendChild(tdFaena);
-
-        const tdPos = document.createElement("td");
-        tdPos.textContent = row.pos;
-        tr.appendChild(tdPos);
-
-        const tdCode = document.createElement("td");
-        tdCode.textContent = row.code;
-        tr.appendChild(tdCode);
-
-        const tdStatus = document.createElement("td");
-        const tag = document.createElement("span");
-        tag.classList.add("tag");
-        if (row.status === "ok") {
-          tag.classList.add("tag-ok");
-          tag.textContent = "Buen estado";
-        } else if (row.status === "warn") {
-          tag.classList.add("tag-warn");
-          tag.textContent = "Desgaste";
-        } else {
-          tag.classList.add("tag-crit");
-          tag.textContent = "Crítico";
-        }
-        tdStatus.appendChild(tag);
-        tr.appendChild(tdStatus);
-
-        const tdActions = document.createElement("td");
-        const btn = document.createElement("button");
-        btn.textContent = "Cambiar faena";
-        btn.className = "btn-small assign";
-        if (currentRole === "guest") {
-          btn.disabled = true;
-        } else {
-          btn.onclick = () => fakeAction("changeFaena", row);
-        }
-        tdActions.appendChild(btn);
-        tr.appendChild(tdActions);
-
-        tbody.appendChild(tr);
-      });
-    }
-
-    function updateRoleUI() {
-      const badge = document.getElementById("currentRoleBadge");
-      const dot = document.getElementById("roleDot");
-      const text = document.getElementById("roleText");
-
-      dot.classList.remove("guest","editor","admin");
-      if (currentRole === "guest") {
-        dot.classList.add("guest");
-        text.textContent = "Modo actual: Invitado (solo lectura)";
-      } else if (currentRole === "editor") {
-        dot.classList.add("editor");
-        text.textContent = "Modo actual: Editor (operaciones básicas)";
+      if (mode === "login") {
+        tabLogin.classList.add("active");
+        tabRegister.classList.remove("active");
+        mainButton.textContent = "Ingresar";
       } else {
-        dot.classList.add("admin");
-        text.textContent = "Modo actual: Admin (control total)";
+        tabLogin.classList.remove("active");
+        tabRegister.classList.add("active");
+        mainButton.textContent = "Crear cuenta";
       }
+    }
 
-      const btnAddInv = document.getElementById("btnAddInventory");
-      const btnAssign = document.getElementById("btnAssign");
-      const btnRetire = document.getElementById("btnRetire");
-      const btnDeleteTruck = document.getElementById("btnDeleteTruck");
-
-      if (currentRole === "guest") {
-        btnAddInv.disabled = true;
-        btnAssign.disabled = true;
-        btnRetire.disabled = true;
-        btnDeleteTruck.disabled = true;
-      } else if (currentRole === "editor") {
-        btnAddInv.disabled = false;
-        btnAssign.disabled = false;
-        btnRetire.disabled = true;
-        btnDeleteTruck.disabled = true;
+    function handleSubmit(event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      if (!email) return;
+      if (mode === "login") {
+        showToast("Simulación: ingresar con usuario " + email);
       } else {
-        btnAddInv.disabled = false;
-        btnAssign.disabled = false;
-        btnRetire.disabled = false;
-        btnDeleteTruck.disabled = false;
+        showToast("Simulación: registrar nueva cuenta para " + email);
       }
-
-      renderTable();
     }
 
-    function setRole(role) {
-      currentRole = role;
-      showToast(
-        role === "guest"
-          ? "Entraste como invitado (solo lectura)."
-          : role === "editor"
-          ? "Entraste como editor. Puedes operar neumáticos básicos."
-          : "Entraste como admin. Control total habilitado."
-      );
-      updateRoleUI();
-    }
-
-    function openLogin(targetRole) {
-      loginTargetRole = targetRole;
-      const overlay = document.getElementById("loginOverlay");
-      const title = document.getElementById("loginTitle");
-      const sub = document.getElementById("loginSub");
-      const input = document.getElementById("passwordInput");
-
-      if (targetRole === "editor") {
-        title.textContent = "Acceso Editor";
-        sub.textContent = "Ingresa la contraseña definida para editores. (Demo sin servidor real).";
-      } else {
-        title.textContent = "Acceso Admin";
-        sub.textContent = "Ingresa la contraseña definida para administradores. (Demo sin servidor real).";
-      }
-
-      input.value = "";
-      overlay.style.display = "flex";
-      input.focus();
-    }
-
-    function closeLogin() {
-      loginTargetRole = null;
-      document.getElementById("loginOverlay").style.display = "none";
-    }
-
-    function submitLogin() {
-      const input = document.getElementById("passwordInput");
-      const pwd = input.value.trim();
-
-      if (!pwd) {
-        showToast("Escribe una contraseña (en esta demo no se valida)");
-        return;
-      }
-
-      if (loginTargetRole) {
-        currentRole = loginTargetRole;
-        showToast(
-          currentRole === "editor"
-            ? "Acceso de editor simulado. Recuerda: no se conecta a base de datos."
-            : "Acceso de admin simulado. Usa esto solo como maqueta visual."
-        );
-        updateRoleUI();
-      }
-      closeLogin();
-    }
-
-    function fakeAction(type, row) {
-      if (currentRole === "guest") {
-        showToast("Invitado solo puede ver. Cambia a Editor o Admin para operar.");
-        return;
-      }
-      if (type === "addInventory") {
-        showToast("Simulación: agregar neumático al inventario.");
-      } else if (type === "assign") {
-        showToast("Simulación: asignar neumático a un camión.");
-      } else if (type === "retire") {
-        if (currentRole !== "admin") {
-          showToast("Solo admin puede retirar neumáticos.");
-        } else {
-          showToast("Simulación: retirar neumático.");
-        }
-      } else if (type === "deleteTruck") {
-        if (currentRole !== "admin") {
-          showToast("Solo admin puede eliminar camiones.");
-        } else {
-          showToast("Simulación: eliminar camión.");
-        }
-      } else if (type === "changeFaena") {
-        showToast("Simulación: cambiar faena de " + (row?.num || "camión"));
-      }
+    function enterGuest() {
+      showToast("Entraste como invitado (solo lectura).");
     }
 
     function showToast(message) {
@@ -814,9 +322,6 @@
         toast.classList.remove("show");
       }, 2600);
     }
-
-    renderTable();
-    updateRoleUI();
   </script>
 </body>
 </html>
