@@ -1224,49 +1224,86 @@
       if (role === "admin" || role === "editor" || role === "guest") return role;
       return "guest";
     }
-
-    const trucks = [
-      {
-        id: 1,
-        num: "CT-03",
-        plate: "RD7433",
-        faena: "LOS LAGOS",
-        model: "MACK · CAMIÓN TOLVA (HR) · 10 POSICIONES · MODELO 1",
-        modelKey: "M1",
-        notes: "",
-        positions: [
-          { code: "P01", label: "EJE 1 — DELANTERO IZQ.", state: "ok",    tireCode: "NH-201", notes: "Sin novedad" },
-          { code: "P02", label: "EJE 1 — DELANTERO DER.", state: "ok",    tireCode: "NH-202", notes: "Sin novedad" },
-          { code: "P03", label: "EJE 2 — TRASERO IZQ. EXT.", state: "warn", tireCode: "NH-301", notes: "Desgaste en hombro" },
-          { code: "P04", label: "EJE 2 — TRASERO IZQ. INT.", state: "ok",   tireCode: "NH-302", notes: "Correcto" },
-          { code: "P05", label: "EJE 2 — TRASERO DER. INT.", state: "ok",   tireCode: "NH-303", notes: "Correcto" },
-          { code: "P06", label: "EJE 2 — TRASERO DER. EXT.", state: "ok",   tireCode: "NH-304", notes: "Correcto" },
-          { code: "P07", label: "EJE 3 — TRASERO IZQ. EXT.", state: "ok",    tireCode: "NH-401", notes: "Recién instalado" },
-          { code: "P08", label: "EJE 3 — TRASERO IZQ. INT.", state: "crit",  tireCode: "NH-402", notes: "Programar cambio urgente" },
-          { code: "P09", label: "EJE 3 — TRASERO DER. INT.", state: "empty", tireCode: "",       notes: "Sin neumático" },
-          { code: "P10", label: "EJE 3 — TRASERO DER. EXT.", state: "ok",    tireCode: "NH-404", notes: "Correcto" },
-        ]
-      },
-      {
-        id: 2,
-        num: "CT-06",
-        plate: "BSLY79",
-        faena: "DV-08 CHOSHUENCO",
-        model: "MACK · CAMIÓN TOLVA · MODELO 1",
-        modelKey: "M1",
-        notes: "",
-        positions: [
-          { code: "P01", label: "EJE 1 — DELANTERO IZQ.", state: "ok",   tireCode: "NH-111", notes: "Correcto" },
-          { code: "P02", label: "EJE 1 — DELANTERO DER.", state: "ok",   tireCode: "NH-112", notes: "Correcto" },
-          { code: "P03", label: "EJE 2 — TRASERO IZQ. EXT.", state: "ok", tireCode: "NH-113", notes: "Correcto" },
-          { code: "P04", label: "EJE 2 — TRASERO IZQ. INT.", state: "ok", tireCode: "NH-114", notes: "Correcto" },
-          { code: "P05", label: "EJE 2 — TRASERO DER. INT.", state: "ok", tireCode: "NH-115", notes: "Correcto" },
-          { code: "P06", label: "EJE 2 — TRASERO DER. EXT.", state: "ok", tireCode: "NH-116", notes: "Correcto" },
-          { code: "P07", label: "EJE 3 — TRASERO IZQ. EXT.", state: "ok", tireCode: "NH-117", notes: "Correcto" },
-          { code: "P08", label: "EJE 3 — TRASERO IZQ. INT.", state: "ok", tireCode: "NH-118", notes: "Correcto" },
-          { code: "P09", label: "EJE 3 — TRASERO DER. INT.", state: "ok", tireCode: "NH-119", notes: "Correcto" },
-          { code: "P10", label: "EJE 3 — TRASERO DER. EXT.", state: "ok", tireCode: "NH-120", notes: "Correcto" },
-        ]
+function basePositions() {
+  return [
+    { code: "P01", label: "EJE 1 — DELANTERO IZQ.", state: "ok",    tireCode: "", notes: "Sin novedad" },
+    { code: "P02", label: "EJE 1 — DELANTERO DER.", state: "ok",    tireCode: "", notes: "Sin novedad" },
+    { code: "P03", label: "EJE 2 — TRASERO IZQ. EXT.", state: "ok", tireCode: "", notes: "Correcto" },
+    { code: "P04", label: "EJE 2 — TRASERO IZQ. INT.", state: "ok", tireCode: "", notes: "Correcto" },
+    { code: "P05", label: "EJE 2 — TRASERO DER. INT.", state: "ok", tireCode: "", notes: "Correcto" },
+    { code: "P06", label: "EJE 2 — TRASERO DER. EXT.", state: "ok", tireCode: "", notes: "Correcto" },
+    { code: "P07", label: "EJE 3 — TRASERO IZQ. EXT.", state: "ok", tireCode: "", notes: "Correcto" },
+    { code: "P08", label: "EJE 3 — TRASERO IZQ. INT.", state: "ok", tireCode: "", notes: "Correcto" },
+    { code: "P09", label: "EJE 3 — TRASERO DER. INT.", state: "ok", tireCode: "", notes: "Correcto" },
+    { code: "P10", label: "EJE 3 — TRASERO DER. EXT.", state: "ok", tireCode: "", notes: "Correcto" },
+  ];
+}
+  const trucks = [
+  {
+    id: 1,
+    num: "CT-03",
+    plate: "RD7433",
+    faena: "LOS LAGOS",
+    model: "MACK · CAMIÓN TOLVA (HR) · 10 POSICIONES · MODELO 1",
+    modelKey: "M1",
+    notes: "",
+    positions: [
+      { code: "P01", label: "EJE 1 — DELANTERO IZQ.", state: "ok",    tireCode: "NH-201", notes: "Sin novedad" },
+      { code: "P02", label: "EJE 1 — DELANTERO DER.", state: "ok",    tireCode: "NH-202", notes: "Sin novedad" },
+      { code: "P03", label: "EJE 2 — TRASERO IZQ. EXT.", state: "warn", tireCode: "NH-301", notes: "Desgaste en hombro" },
+      { code: "P04", label: "EJE 2 — TRASERO IZQ. INT.", state: "ok",   tireCode: "NH-302", notes: "Correcto" },
+      { code: "P05", label: "EJE 2 — TRASERO DER. INT.", state: "ok",   tireCode: "NH-303", notes: "Correcto" },
+      { code: "P06", label: "EJE 2 — TRASERO DER. EXT.", state: "ok",   tireCode: "NH-304", notes: "Correcto" },
+      { code: "P07", label: "EJE 3 — TRASERO IZQ. EXT.", state: "ok",    tireCode: "NH-401", notes: "Recién instalado" },
+      { code: "P08", label: "EJE 3 — TRASERO IZQ. INT.", state: "crit",  tireCode: "NH-402", notes: "Programar cambio urgente" },
+      { code: "P09", label: "EJE 3 — TRASERO DER. INT.", state: "empty", tireCode: "",       notes: "Sin neumático" },
+      { code: "P10", label: "EJE 3 — TRASERO DER. EXT.", state: "ok",    tireCode: "NH-404", notes: "Correcto" },
+    ]
+  },
+  {
+    id: 2,
+    num: "CT-06",
+    plate: "BSLY79",
+    faena: "DV-08 CHOSHUENCO",
+    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1",
+    modelKey: "M1",
+    notes: "",
+    positions: [
+      { code: "P01", label: "EJE 1 — DELANTERO IZQ.", state: "ok",    tireCode: "", notes: "Correcto" },
+      { code: "P02", label: "EJE 1 — DELANTERO DER.", state: "ok",    tireCode: "", notes: "Correcto" },
+      { code: "P03", label: "EJE 2 — TRASERO IZQ. EXT.", state: "ok", tireCode: "", notes: "Correcto" },
+      { code: "P04", label: "EJE 2 — TRASERO IZQ. INT.", state: "ok", tireCode: "", notes: "Correcto" },
+      { code: "P05", label: "EJE 2 — TRASERO DER. INT.", state: "ok", tireCode: "", notes: "Correcto" },
+      { code: "P06", label: "EJE 2 — TRASERO DER. EXT.", state: "ok", tireCode: "", notes: "Correcto" },
+      { code: "P07", label: "EJE 3 — TRASERO IZQ. EXT.", state: "ok", tireCode: "", notes: "Correcto" },
+      { code: "P08", label: "EJE 3 — TRASERO IZQ. INT.", state: "ok", tireCode: "", notes: "Correcto" },
+      { code: "P09", label: "EJE 3 — TRASERO DER. INT.", state: "ok", tireCode: "", notes: "Correcto" },
+      { code: "P10", label: "EJE 3 — TRASERO DER. EXT.", state: "ok", tireCode: "", notes: "Correcto" },
+    ]
+  },
+  { id: 3,  num: "CT-07", plate: "CHPV26",  faena: "PATIO",               model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 4,  num: "CT-10", plate: "HKDX21",  faena: "LOS LAGOS",           model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 5,  num: "CT-12", plate: "PDSF74",  faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 6,  num: "CT-13", plate: "PDSF75",  faena: "DV-10 RUPUMEICA",     model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 7,  num: "CT-14", plate: "RCKP70",  faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 8,  num: "CT-15", plate: "RCKP71",  faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 9,  num: "CT-16", plate: "RCKP72",  faena: "DV-10 RUPUMEICA",     model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 10, num: "CT-23", plate: "BSPZ51-K",faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 11, num: "CT-24", plate: "BDYC87-K",faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 12, num: "CT-25", plate: "WH9819-7",faena: "PLQ",                model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 13, num: "CT-26", plate: "WH9820-0",faena: "PATIO",              model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 14, num: "CT-27", plate: "WH9821-9",faena: "PATIO",              model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 15, num: "CT-28", plate: "WH9822-7",faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 16, num: "CT-29", plate: "YU4567-0",faena: "DV-06 LAS HUELLAS",   model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 17, num: "CT-30", plate: "YU4568-9",faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 18, num: "CT-31", plate: "YU4569-7",faena: "LOS LAGOS",           model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 19, num: "CT-33", plate: "YU4931-5",faena: "PLQ",                model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 20, num: "CT-34", plate: "YU4943-9",faena: "PLQ",                model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 21, num: "CT-35", plate: "VJGH99",  faena: "DV-10 RUPUMEICA",     model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 22, num: "CT-36", plate: "VJGJ11",  faena: "DV-10 RUPUMEICA",     model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 23, num: "CT-37", plate: "VJGJ10",  faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+  { id: 24, num: "CT-38", plate: "VJGJ12",  faena: "DV-08 CHOSHUENCO",    model: "MACK · CAMIÓN TOLVA · 10 POSICIONES · MODELO 1", modelKey: "M1", notes: "", positions: basePositions() },
+];
       },
     ];
 
