@@ -1,0 +1,435 @@
+// ============================================================
+// NEUMATRACK · Inventario de Neumáticos
+// ============================================================
+
+function openInventory() {
+  document.getElementById('userMenu').style.display='none';
+  document.getElementById('invBackdrop').style.display='flex';
+  document.getElementById('invNewBtn').disabled = role==='guest';
+  setInvTab(invTab);
+  syncInvCounts();
+  renderInventory();
+}
+
+function closeInventory(ev) {
+  if (ev && ev.target && ev.target.id!=='invBackdrop') return;
+  document.getElementById('invBackdrop').style.display='none';
+  closeInvForm(true);
+}
+
+function setInvTab(tab) {
+  invTab = tab;
+  ['tabStock','tabInstalled','tabRetired'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  const map = {stock:'tabStock', installed:'tabInstalled', retired:'tabRetired'};
+  document.getElementById(map[tab]).classList.add('active');
+  renderInventory();
+  syncInvCounts();
+}
+
+function syncInvCounts() {
+  const s = inventory.filter(i=>i.status==='stock').length;
+  const n = inventory.filter(i=>i.status==='installed').length;
+  const r = inventory.filter(i=>i.status==='retired').length;
+  document.getElementById('tabStock').innerHTML    = s+' <span>STOCK</span>';
+  document.getElementById('tabInstalled').innerHTML= n+' <span>INSTALADOS</span>';
+  document.getElementById('tabRetired').innerHTML  = r+' <span>RETIRADOS</span>';
+}
+
+function renderInventory() {
+  const list = document.getElementById('invList');
+  if (!list) return;
+  const q = (document.getElementById('invSearch')?.value||'').trim().toLowerCase();
+  const f = document.getElementById('invFilter')?.value||'all';
+
+  let items = inventory.filter(i=>i.status===invTab);
+  if (f!=='all') items = items.filter(i=>i.condition===f);
+  if (q)         items = items.filter(i=>
+    i.code.toLowerCase().includes(q)||
+    (i.brand||'').toLowerCase().includes(q)||
+    (i.size||'').toLowerCase().includes(q)||
+    (i.location||'').toLowerCase().includes(q)
+  );
+
+  list.innerHTML = '';
+  if (!items.length) { list.innerHTML='<div style="color:#9ca3af;padding:10px 2px;">Sin resultados.</div>'; return; }
+
+  items.forEach(i=>{
+    const badgeClass = i.status==='stock'?'stock':i.status==='installed'?'installed':'retired';
+    const badgeText  = i.status==='stock'?'EN STOCK':i.status==='installed'?'INSTALADO':'RETIRADO';
+    const km   = (i.entryKm===null||i.entryKm===undefined)?'—':String(i.entryKm);
+    const loc  = i.location ? '📍 '+i.location : '';
+    const canAssign = role!=='guest' && currentSelectedPosCode && i.status==='stock';
+
+    const el = document.createElement('div');
+    el.className = 'inv-item';
+    el.innerHTML = `
+      <div>
+        <h5>${i.code||'(sin código)'} <span style="color:#9ca3af;font-weight:500;">— ${km}</span></h5>
+        <div class="inv-meta">
+          ${i.condition==='new'?'Nuevo':i.condition==='used'?'Usado':'Recauchado'}
+          &nbsp;&nbsp; ${i.size||''} &nbsp;&nbsp; Ingreso: ${i.entryDate||'—'} &nbsp;&nbsp; ${loc}
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <div class="inv-badge ${badgeClass}">${badgeText}</div>
+        <div style="display:flex;gap:6px;">
+          ${i.status==='retired'
+            ? `<button class="btn-small" type="button" onclick="openRetDetail('${i.code}')">👁 Ver Detalle</button>`
+            : i.status==='installed'
+              ? `<button class="btn-small" style="border-color:#0369a1;color:#7dd3fc;" type="button" onclick="openReturnBodega('${i.code}')">🔄 Devolver</button>
+                 <button class="btn-small" ${role==='guest'?'disabled':''} type="button" onclick="editInventory('${i.code}')">Editar</button>
+                 <button class="btn-small danger" ${role==='guest'?'disabled':''} type="button" onclick="openRetireForm('${i.code}')">Dar de baja</button>`
+              : `<button class="btn-small btn-assign" ${canAssign?'':'disabled'} type="button" onclick="assignInventory('${i.code}')">Asignar</button>
+                 <button class="btn-small" ${role==='guest'?'disabled':''} type="button" onclick="editInventory('${i.code}')">Editar</button>
+                 <button class="btn-small danger" ${role==='guest'?'disabled':''} type="button" onclick="openRetireForm('${i.code}')">Dar de baja</button>`
+          }
+        </div>
+      </div>
+    `;
+    list.appendChild(el);
+  });
+}
+
+// ── Formulario inventario ──────────────────────────────────
+function openInvForm() {
+  if (role==='guest') return;
+  window.__editingCode = null;
+  document.getElementById('invFormTitle').textContent = 'REGISTRAR NEUMÁTICO';
+  document.getElementById('btnRegister').textContent = 'Registrar';
+  document.getElementById('invListView').style.display='none';
+  document.getElementById('invFormView').style.display='block';
+  ['fCode','fBrand','fSize','fDepth','fLoc','fNotes'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('fCond').value='new';
+  document.getElementById('fDate').value=new Date().toISOString().slice(0,10);
+  document.getElementById('fKm').value='0';
+}
+
+function closeInvForm(silent) {
+  document.getElementById('invFormView').style.display='none';
+  document.getElementById('invListView').style.display='block';
+  if (!silent) {
+    ['fCode','fBrand','fSize','fDepth','fLoc','fNotes'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.value='';
+    });
+    document.getElementById('fCond').value='new';
+  }
+}
+
+function editInventory(code) {
+  if (role==='guest') return;
+  const item = inventory.find(i=>i.code===code);
+  if (!item) return;
+  window.__editingCode = code;
+  document.getElementById('invFormTitle').textContent = 'EDITAR NEUMÁTICO';
+  document.getElementById('btnRegister').textContent = 'Guardar cambios';
+  document.getElementById('invListView').style.display='none';
+  document.getElementById('invFormView').style.display='block';
+  document.getElementById('fCode').value  = item.code;
+  document.getElementById('fBrand').value = item.brand||'';
+  document.getElementById('fSize').value  = item.size||'';
+  document.getElementById('fCond').value  = item.condition||'new';
+  document.getElementById('fDepth').value = item.depth||'';
+  document.getElementById('fLoc').value   = item.location||'';
+  document.getElementById('fDate').value  = item.entryDate||'';
+  document.getElementById('fKm').value    = item.entryKm??0;
+  document.getElementById('fNotes').value = item.notes||'';
+}
+
+function validateUniqueCode(code, editingCode) {
+  const exists = inventory.find(i => i.code.toLowerCase() === code.toLowerCase() && i.code !== editingCode);
+  return !exists;
+}
+
+async function saveInventory() {
+  if (role==='guest') return;
+  const code = (document.getElementById('fCode').value||'').trim();
+  if (!code) { showToast('El código es obligatorio.'); return; }
+  if (!validateUniqueCode(code, window.__editingCode||null)) {
+    showToast('❌ Ya existe un neumático con el código "'+code+'". Usa un código único (ej: CM-001).');
+    return;
+  }
+
+  const payload = {
+    code,
+    brand:      (document.getElementById('fBrand').value||'').trim(),
+    size:       (document.getElementById('fSize').value||'').trim(),
+    condition:  document.getElementById('fCond').value,
+    status:     window.__editingCode ? (inventory.find(i=>i.code===window.__editingCode)?.status||'stock') : 'stock',
+    entry_date: document.getElementById('fDate').value || new Date().toISOString().slice(0,10),
+    entry_km:   Number(document.getElementById('fKm').value||0),
+    location:   (document.getElementById('fLoc').value||'').trim(),
+    notes:      (document.getElementById('fNotes').value||'').trim(),
+    depth:      document.getElementById('fDepth').value||null,
+    updated_at: new Date().toISOString(),
+  };
+
+  const btn = document.getElementById('btnRegister');
+  btn.disabled=true; btn.textContent='Guardando...';
+
+  let error;
+  if (window.__editingCode) {
+    ({error} = await sb.from('inventory').update(payload).eq('code', window.__editingCode));
+  } else {
+    ({error} = await sb.from('inventory').insert(payload));
+  }
+
+  btn.disabled=false; btn.textContent= window.__editingCode ? 'Guardar cambios' : 'Registrar';
+
+  if (error) { showToast('Error: '+error.message); return; }
+
+  await addHistory(window.__editingCode?'editar':'alta', `${window.__editingCode?'Edición':'Alta'} neumático ${code}`);
+  window.__editingCode = null;
+
+  const {data} = await sb.from('inventory').select('*').order('code');
+  inventory = (data||[]).map(i=>({_id:i.id,code:i.code,brand:i.brand||'',size:i.size||'',condition:i.condition||'new',status:i.status||'stock',depth:i.depth||'',location:i.location||'',entryDate:i.entry_date||'',entryKm:i.entry_km??0,truckNum:i.truck_num||'',posCode:i.pos_code||'',retReason:i.ret_reason||'',retAuth:i.ret_auth||'',retKm:i.ret_km,retNotes:i.ret_notes||'',retPhoto:i.ret_photo||'',notes:i.notes||''}));
+  syncInvCounts(); renderInventory(); setInvTab('stock');
+  closeInvForm();
+  showToast('Neumático guardado correctamente.');
+}
+
+// ── Asignar neumático a posición ───────────────────────────
+async function assignInventory(code) {
+  if (role==='guest') { showToast('Solo lectura.'); return; }
+  if (!currentSelectedPosCode) { alert('Primero selecciona una posición (clic en una rueda).'); return; }
+
+  const truck = trucks.find(t=>t.id===currentTruckId);
+  if (!truck) { alert('No hay camión seleccionado.'); return; }
+
+  const pos  = truck.positions.find(p=>p.code===currentSelectedPosCode);
+  const item = inventory.find(i=>i.code===code);
+  if (!pos||!item) { alert('Posición o neumático no encontrado.'); return; }
+  if (item.status!=='stock') { alert('Solo se pueden asignar neumáticos en STOCK.'); return; }
+
+  const [r1, r2] = await Promise.all([
+    sb.from('positions').update({state:'ok', tire_code:code, notes:'Asignado desde inventario', updated_at:new Date().toISOString()}).eq('truck_id',currentTruckId).eq('code',pos.code),
+    sb.from('inventory').update({status:'installed', truck_num:truck.num, pos_code:pos.code, updated_at:new Date().toISOString()}).eq('code',code)
+  ]);
+
+  if (r1.error||r2.error) { showToast('Error al asignar.'); return; }
+
+  await addHistory('asignar', `Neumático ${code} → ${truck.num} / ${currentSelectedPosCode}`);
+
+  await loadAllData();
+  renderFleet(); syncKpiBar(); syncInvCounts(); renderInventory();
+  selectTruck(currentTruckId);
+  showToast('Neumático asignado correctamente.');
+}
+
+// ── Dar de baja ────────────────────────────────────────────
+function openRetireForm(code) {
+  if (role==='guest') return;
+  retireCode = code;
+  const item = inventory.find(i=>i.code===code);
+  document.getElementById('retCodeBox').textContent = code + '  —  km: ' + (item?.entryKm??'—');
+  document.getElementById('retReason').value='';
+  document.getElementById('retAuth').value='';
+  document.getElementById('retKm').value='';
+  document.getElementById('retNotes').value='';
+  document.getElementById('retBackdrop').style.display='flex';
+}
+
+function closeRetire(ev) {
+  if (ev && ev.target && ev.target.id!=='retBackdrop') return;
+  document.getElementById('retBackdrop').style.display='none';
+  retireCode = null;
+}
+
+async function confirmRetire() {
+  if (!retireCode) return;
+  const reason = document.getElementById('retReason').value;
+  if (!reason) { alert('Selecciona un motivo de baja.'); return; }
+
+  const auth  = document.getElementById('retAuth').value;
+  const km    = document.getElementById('retKm').value;
+  const notes = document.getElementById('retNotes').value;
+  const photoFile = document.getElementById('retPhoto')?.files?.[0];
+
+  const item = inventory.find(i=>i.code===retireCode);
+
+  async function doRetire(photoUrl) {
+    const updates = {
+      status:'retired', ret_reason:reason, ret_auth:auth,
+      ret_km: km?Number(km):null, ret_notes:notes,
+      ret_photo: photoUrl||null,
+      truck_num:'', pos_code:'', updated_at:new Date().toISOString()
+    };
+    const ops = [sb.from('inventory').update(updates).eq('code', retireCode)];
+    if (item?.status==='installed' && item.truckNum && item.posCode) {
+      ops.push(sb.from('positions').update({state:'empty',tire_code:'',notes:'Sin neumático',updated_at:new Date().toISOString()}).eq('truck_id', trucks.find(t=>t.num===item.truckNum)?.id??-1).eq('code',item.posCode));
+    }
+    const results = await Promise.all(ops);
+    if (results.some(r=>r.error)) { showToast('Error al dar de baja.'); return; }
+    await addHistory('baja', `Baja neumático ${retireCode} · motivo: ${reason}${photoUrl?' · con foto':''}`);
+    closeRetire();
+    await loadAllData();
+    renderFleet(); syncKpiBar(); syncInvCounts(); renderInventory();
+    setInvTab('retired');
+    if (currentTruckId) selectTruck(currentTruckId);
+    showToast('Neumático dado de baja.' + (photoUrl?' 📷 Foto guardada.':''));
+  }
+
+  if (photoFile) {
+    showToast('Subiendo foto…');
+    const ext   = photoFile.name.split('.').pop();
+    const path  = `bajas/${retireCode}_${Date.now()}.${ext}`;
+    sb.storage.from('neumaticos-fotos').upload(path, photoFile, {upsert:true})
+      .then(function(res) {
+        if (res.error) {
+          console.warn('Photo upload failed:', res.error.message);
+          doRetire(null);
+        } else {
+          const { data } = sb.storage.from('neumaticos-fotos').getPublicUrl(path);
+          doRetire(data.publicUrl);
+        }
+      });
+  } else {
+    doRetire(null);
+  }
+}
+
+// ── Detalle neumático retirado ─────────────────────────────
+// BUG FIX: Template literal corregido (antes tenía \$ que impedía ejecutar buildTireLifeHTML)
+function openRetDetail(code) {
+  const i = inventory.find(x=>x.code===code);
+  if (!i) return;
+  const body = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">
+      <div style="background:#0b1120;border-radius:10px;padding:10px;grid-column:1/-1;">
+        <div style="color:#fca5a5;font-size:15px;font-weight:700;">${i.code} — DADO DE BAJA</div>
+      </div>
+      <div style="background:#0b1120;border-radius:10px;padding:10px;">
+        <div style="color:#64748b;font-size:10px;letter-spacing:.1em;text-transform:uppercase;">Marca / Medida</div>
+        <div style="color:#e5e7eb;font-size:13px;margin-top:2px;">${i.brand||'—'} ${i.size||''}</div>
+      </div>
+      <div style="background:#0b1120;border-radius:10px;padding:10px;">
+        <div style="color:#64748b;font-size:10px;letter-spacing:.1em;text-transform:uppercase;">Motivo de Baja</div>
+        <div style="color:#fca5a5;font-size:13px;margin-top:2px;font-weight:600;">${i.retReason||'—'}</div>
+      </div>
+      <div style="background:#0b1120;border-radius:10px;padding:10px;">
+        <div style="color:#64748b;font-size:10px;letter-spacing:.1em;text-transform:uppercase;">Km/Hr al Retiro</div>
+        <div style="color:#e5e7eb;font-size:13px;margin-top:2px;">${i.retKm||'—'}</div>
+      </div>
+      <div style="background:#0b1120;border-radius:10px;padding:10px;">
+        <div style="color:#64748b;font-size:10px;letter-spacing:.1em;text-transform:uppercase;">Autorizado Por</div>
+        <div style="color:#e5e7eb;font-size:13px;margin-top:2px;">${i.retAuth||'—'}</div>
+      </div>
+      <div style="background:#0b1120;border-radius:10px;padding:10px;grid-column:1/-1;">
+        <div style="color:#64748b;font-size:10px;letter-spacing:.1em;text-transform:uppercase;">Observaciones</div>
+        <div style="color:#e5e7eb;font-size:13px;margin-top:2px;">${i.retNotes||'—'}</div>
+      </div>
+      ${i.truckNum ? `<div style="background:#0b1120;border-radius:10px;padding:10px;grid-column:1/-1;">
+        <div style="color:#64748b;font-size:10px;letter-spacing:.1em;text-transform:uppercase;">Estaba en</div>
+        <div style="color:#93c5fd;font-size:13px;margin-top:2px;">${i.truckNum} / ${i.posCode}</div>
+      </div>` : ''}
+    </div>
+    ${i.retPhoto ? `
+    <div style="margin-bottom:14px;">
+      <div style="color:#64748b;font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">FOTOGRAFÍA</div>
+      <img src="${i.retPhoto}" style="max-width:100%;max-height:260px;border-radius:12px;border:1px solid #1f2937;" />
+    </div>` : ''}
+    <details style="margin-bottom:14px;">
+      <summary style="color:#6366f1;font-size:11px;cursor:pointer;letter-spacing:.08em;font-weight:600;">📋 HISTORIAL COMPLETO DE VIDA</summary>
+      <div style="margin-top:10px;padding:10px;background:#020617;border-radius:10px;max-height:280px;overflow-y:auto;">
+        ${buildTireLifeHTML(i.code)}
+      </div>
+    </details>
+    <div style="display:flex;justify-content:flex-end;">
+      <button class="btn-cancel" type="button" onclick="closeRetDetail()">Cerrar</button>
+    </div>
+  `;
+  document.getElementById('retDetailBody').innerHTML = body;
+  document.getElementById('retDetailBackdrop').style.display = 'flex';
+}
+
+function closeRetDetail(ev) {
+  if (ev && ev.target.id !== 'retDetailBackdrop') return;
+  document.getElementById('retDetailBackdrop').style.display = 'none';
+}
+
+// ── Devolver a Bodega Los Lagos ────────────────────────────
+function openReturnBodega(code) {
+  const item = inventory.find(i=>i.code===code);
+  if (!item) return;
+  returnBodegaCode = code;
+  const condName = item.condition==='new'?'Nuevo':item.condition==='used'?'Usado':'Recauchado';
+  document.getElementById('retBodegaCodeBox').textContent = code;
+  document.getElementById('retBodegaInfoBox').textContent =
+    (item.brand||'—') + ' ' + (item.size||'') + ' · ' + condName +
+    (item.truckNum ? ' · Instalado en ' + item.truckNum + '/' + item.posCode : '');
+  document.getElementById('retBodegaReason').value = '';
+  document.getElementById('retBodegaNotes').value  = '';
+  document.getElementById('retBodegaKm').value     = '';
+  closeTireClick();
+  document.getElementById('invBackdrop').style.display = 'none';
+  document.getElementById('returnBodegaBackdrop').style.display = 'flex';
+}
+
+function closeReturnBodega(ev) {
+  if (ev && ev.target.id !== 'returnBodegaBackdrop') return;
+  document.getElementById('returnBodegaBackdrop').style.display = 'none';
+  returnBodegaCode = null;
+}
+
+async function confirmReturnBodega() {
+  if (!returnBodegaCode) return;
+  const reason = document.getElementById('retBodegaReason').value;
+  if (!reason) { showToast('⚠ Selecciona un motivo de devolución.'); return; }
+
+  const notes = document.getElementById('retBodegaNotes').value;
+  const km    = document.getElementById('retBodegaKm').value;
+  const item  = inventory.find(i=>i.code===returnBodegaCode);
+  if (!item) return;
+
+  const reasonLabels = {
+    fin_temporada:'Fin de temporada/obra', exceso_stock:'Exceso de stock en faena',
+    mal_estado_leve:'Mal estado leve', cambio_equipo:'Cambio de equipo/camión',
+    reingreso:'Reingreso tras reparación', otro:'Otro'
+  };
+
+  const ops = [
+    sb.from('inventory').update({
+      status: 'stock',
+      location: 'Bodega Los Lagos',
+      truck_num: '',
+      pos_code: '',
+      updated_at: new Date().toISOString(),
+      notes: (item.notes ? item.notes + ' | ' : '') +
+             'Devuelto ' + new Date().toLocaleDateString('es-CL') +
+             ': ' + (reasonLabels[reason]||reason) +
+             (notes ? '. ' + notes : '') +
+             (km ? '. Km: '+km : '')
+    }).eq('code', returnBodegaCode)
+  ];
+
+  if (item.status==='installed' && item.truckNum && item.posCode) {
+    const truck = trucks.find(t=>t.num===item.truckNum);
+    if (truck) {
+      ops.push(sb.from('positions').update({
+        state:'empty', tire_code:'', notes:'Sin neumático',
+        updated_at:new Date().toISOString()
+      }).eq('truck_id',truck.id).eq('code',item.posCode));
+    }
+  }
+
+  const results = await Promise.all(ops);
+  if (results.some(r=>r.error)) { showToast('❌ Error al devolver.'); return; }
+
+  const histMsg = 'Devolucion a Bodega Los Lagos: ' + returnBodegaCode +
+    (item.truckNum ? ' desde ' + item.truckNum + '/' + item.posCode : '') +
+    ' · Motivo: ' + (reasonLabels[reason]||reason) +
+    (km ? ' · Km: ' + km : '');
+  await addHistory('mov', histMsg);
+  await addTireHistory(returnBodegaCode, 'devolucion', {
+    truckNum: item.truckNum||'', posCode: item.posCode||'',
+    km: km ? Number(km) : null,
+    notes: 'Devuelto a Bodega Los Lagos · Motivo: '+(reasonLabels[reason]||reason)+(notes?' · '+notes:'')
+  });
+
+  closeReturnBodega();
+  await loadAllData();
+  renderFleet(); syncKpiBar(); syncInvCounts(); renderInventory();
+  if (currentTruckId) selectTruck(currentTruckId);
+  showToast('Devuelto a Bodega Los Lagos: ' + returnBodegaCode);
+}
